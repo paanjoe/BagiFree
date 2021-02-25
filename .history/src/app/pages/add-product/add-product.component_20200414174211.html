@@ -1,0 +1,412 @@
+<!-- breadcrumb start -->
+<div class="breadcrumb-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="page-title">
+            <h2>BagiFree</h2>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <nav aria-label="breadcrumb" class="theme-breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a [routerLink]="'/home/main'">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Post BagiFree / Swap</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- breadcrumb end -->
+<!-- about section start -->
+<section class="about-page  section-b-space">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="col-md-12 grid-margin stretch-card">
+                    <div class="card">
+                      <div class="card-body">
+                        <h4 class="card-title">Add New BagiFree / Swap</h4>
+
+                        <div class="row">
+                          <div class="col-lg-6">
+                            <p class="card-description">
+                              Please enter bagifree/swap information
+                            </p>
+                          </div>
+                          <div class="col-lg-6">
+                            <div *ngIf="fileList?.length == 0 ">
+                                <button disabled="true" nz-button nzType="primary" style="float:right" [nzLoading]="isLoadingOne" (click)="onSubmit()" > + Post BagiFree / Swap</button>
+                            </div>
+                            <div *ngIf="fileList?.length > 4 ">
+                                <button disabled="true" nz-button nzType="primary" style="float:right" [nzLoading]="isLoadingOne" (click)="onSubmit()" > + Post BagiFree / Swap</button>
+                            </div>
+                            <div *ngIf="fileList?.length >= 1 && fileList?.length <= 4">
+                                <button [disabled]="!fg1.valid" nz-button nzType="primary" style="float:right" [nzLoading]="isLoadingOne" (click)="onSubmit()" > + Post BagiFree / Swap</button>
+                            </div>
+                            <!-- <button [disabled]="fL.length == 0 || fL.length > 4 && !fg1.valid" nz-button nzType="primary" style="float:right" (click)="onSubmit()" > + Post BagiFree / Swap</button> -->
+                          </div>
+                        </div>
+
+
+                        <nz-divider nzDashed> </nz-divider>
+
+                        <ngb-tabset #t="ngbTabset" class="tab-basic vertical-tab" >
+                          <ngb-tab title="Product Information" id="productinfo">
+                            <ng-template ngbTabContent>
+                              <br/>
+                              <div class="row">
+                                  <div class="col-md-12">
+                                      <form nz-form [formGroup]="fg1" class="forms-sample ng-untouched ng-pristine ng-valid">
+                                        <!-- Img -->
+                                        <div class="form-group">
+                                            <label for="image">Product Image  <span *ngIf="fileList?.length == 0" style="color:red;font-size: 14px;margin-left: 5px">One (1) product, maximum four (4) images and minimum one (1) image.</span><span *ngIf="fileList.length > 4" style="color:red;font-size: 12px;margin-left: 5px">One (1) product, maximum four (4) images and minimum one (1) image.</span></label>
+                                            <div class="clearfix">
+                                                <nz-upload nzType="drag" [nzMultiple]="true" [nzLimit]="4" [nzBeforeUpload]="beforeUpload" [(nzFileList)]="fileList" >
+                                                <p class="ant-upload-drag-icon"> <i nz-icon nzType="inbox"></i></p>
+                                                <p class="ant-upload-text">Click or drag file to this area to upload</p>
+                                                <p class="ant-upload-hint"> Support for a single or bulk upload. The picture must be lower than 7MB and file type is jpg/png.</p>
+                                              </nz-upload>
+                                            </div>
+                                        </div>
+                                      </form>
+                                  </div>
+                              </div>
+
+                              <!-- <nz-upload
+                                class="avatar-uploader"
+                                nzAction="https://jsonplaceholder.typicode.com/posts/"
+                                nzName="avatar"
+                                nzListType="picture-card"
+                                [nzShowUploadList]="false"
+                                [nzBeforeUpload]="beforeUpload1"
+                                (nzChange)="handleChange($event)"
+                              >
+                                <ng-container *ngIf="!avatarUrl">
+                                  <i class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></i>
+                                  <div class="ant-upload-text">Upload</div>
+                                </ng-container>
+                                <img style="width: 150px; height: 150px;" *ngIf="avatarUrl" [src]="avatarUrl" class="avatar" />
+                              </nz-upload> -->
+
+
+
+                              <br/>
+
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <form
+                                    nz-form
+                                    [formGroup]="fg1"
+                                    
+                                  >
+                                  <!-- P name -->
+                                      <nz-form-item>
+                                          <label for="productname">Product Name</label>
+                                          <nz-form-control nzErrorTip="Please input your Product Name!">
+                                              <input nz-input
+                                              placeholder="Product Name"
+                                              formControlName="productName"
+                                              nzSize="large"
+                                              id="productname"
+                                             />
+                                          </nz-form-control>
+                                      </nz-form-item>
+
+
+                                    <div class="form-group">
+                                      <div class="row">
+                                          <div class="col-md-6">
+                                              <nz-form-item>
+                                                  <label for="brand">Brand</label>
+                                                  <nz-form-control nzErrorTip="Please input your Brand!">
+                                                      <input nz-input
+                                                      placeholder="Brand"
+                                                      formControlName="Brand"
+                                                      nzSize="large"
+                                                      id="brand"
+                                                     />
+                                                  </nz-form-control>
+                                              </nz-form-item>
+                                          </div>
+                                          <div class="col-md-6">
+                                              <div class="form-group">
+                                                  <label for="category">Category:</label>
+                                                  <nz-form-item>
+                                                    <nz-form-control nzErrorTip="Please choose Category!">
+                                                        <nz-select nzAllowClear nzPlaceHolder="Choose" formControlName="category" id="category" nzSize="large">
+                                                            <nz-option nzValue="1" nzLabel="Women's Clothing"></nz-option>
+                                                            <nz-option nzValue="2" nzLabel="Men's Clothing"></nz-option>
+                                                            <nz-option nzValue="3" nzLabel="Cameras & Drones"></nz-option>
+                                                            <nz-option nzValue="4" nzLabel="Health & Beauty"></nz-option>
+                                                            <nz-option nzValue="5" nzLabel="Mobile & Gadgets"></nz-option>
+                                                            <nz-option nzValue="6" nzLabel="Baby & Toys"></nz-option>
+                                                            <nz-option nzValue="7" nzLabel="Watches"></nz-option>
+                                                            <nz-option nzValue="8" nzLabel="Home & Living"></nz-option>
+                                                            <nz-option nzValue="9" nzLabel="Home Appliances"></nz-option>
+                                                            <nz-option nzValue="10" nzLabel="Women's Bags"></nz-option>
+                                                            <nz-option nzValue="11" nzLabel="Men's Bags & Wallet"></nz-option>
+                                                            <nz-option nzValue="12" nzLabel="Muslim Fashion"></nz-option>
+                                                            <nz-option nzValue="13" nzLabel="Computer Accessories"></nz-option>
+                                                            <nz-option nzValue="14" nzLabel="Groceries & Pets"></nz-option>
+                                                            <nz-option nzValue="15" nzLabel="Sports & Outdoor"></nz-option>
+                                                            <nz-option nzValue="16" nzLabel="Women's Shoes"></nz-option>
+                                                            <nz-option nzValue="17" nzLabel="Men's Shoes"></nz-option>
+                                                            <nz-option nzValue="18" nzLabel="Fashion Accessories"></nz-option>
+                                                            <nz-option nzValue="19" nzLabel="Books & Magazines"></nz-option>
+                                                            <nz-option nzValue="20" nzLabel="Automotive"></nz-option>
+                                                            <nz-option nzValue="21" nzLabel="Ticket & Vouchers"></nz-option>
+                                                            <nz-option nzValue="22" nzLabel="Travel & Luggage"></nz-option>
+                                                            <nz-option nzValue="23" nzLabel="Others"></nz-option>
+                                                        </nz-select>
+                                                    </nz-form-control>
+                                                  </nz-form-item>
+                                                  
+                                                </div>
+                                          </div>
+                                      </div>
+                                    </div>
+
+
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                              <nz-form-item>
+                                                <nz-form-control nzErrorTip="Please choose your Product Type!">
+                                                    <label for="type">Type:</label>
+                                                    <nz-select nzAllowClear nzPlaceHolder="Choose" (ngModelChange)="showEstVal($event)" formControlName="type" id="type" nzSize="large">
+                                                        <nz-option nzValue="1" nzLabel="BagiFree"></nz-option>
+                                                        <nz-option nzValue="2" nzLabel="Swap"></nz-option>
+                                                    </nz-select>
+                                                </nz-form-control>
+                                              </nz-form-item>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                              <nz-form-item>
+                                                <nz-form-control nzErrorTip="Please enter estimated value!">
+                                                    <label *ngIf="estValVisible === true" for="estval">Estimated Value (RM):</label>
+                                                    <nz-select *ngIf="estValVisible === true" nzAllowClear nzPlaceHolder="Choose" formControlName="estVal" id="estVal" nzSize="large">
+                                                        <nz-option nzValue="< 500" nzLabel="Less Than RM 500"></nz-option>
+                                                        <nz-option nzValue="501 - 1000" nzLabel="RM 501 - 1000"></nz-option>
+                                                        <nz-option nzValue="1001 - 1500" nzLabel="RM 1001 - 1500"></nz-option>
+                                                        <nz-option nzValue="1501 - 2000" nzLabel="RM 1501 - 2000"></nz-option>
+                                                        <nz-option nzValue="> 2001" nzLabel="More Than RM 2000"></nz-option>
+                                                    </nz-select>
+                                                </nz-form-control>
+                                              </nz-form-item>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                          <div class="form-group">
+                                            <nz-form-item>
+                                              <nz-form-control nzErrorTip="Please enter preferred item!">
+                                                  <label *ngIf="estValVisible == true" for="preferredItem">Preferred Item to Swap with</label>
+                                                  <nz-form-control nzErrorTip="Please input your Preferred Item!">
+                                                    <input *ngIf="estValVisible == true" nz-input
+                                                    placeholder="Preferred Item to Swap with"
+                                                    formControlName="preferredItem"
+                                                    nzSize="large"
+                                                    id="preferredItem"
+                                                   />
+                                                </nz-form-control>
+                                              </nz-form-control>
+                                            </nz-form-item>
+                                          </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group" *ngIf="this.addressList?.length > 0 ">
+                                        <nz-form-item>
+                                          <nz-form-control nzErrorTip="Please choose Location of BagiFree/Swap!">
+                                              <label for="location">Location of BagiFree/Swap:</label>
+                                              <nz-select nzAllowClear nzPlaceHolder="Choose" formControlName="address" id="location"  nzSize="large">
+                                                  <nz-option *ngFor="let data of this.addressList" nzValue="{{data.id}}" nzLabel="{{ data.city + ', ' + data.state + ', ' + data.country }}"></nz-option>
+                                              </nz-select>
+                                          </nz-form-control>
+                                        </nz-form-item>
+                                         
+                                      </div>
+
+                                      <div class="row">
+                                        <div class="col-md-12">
+                                          <div class="form-group" *ngIf="this.addressList?.length === 0">
+                                            <nz-form-item>
+                                              <nz-form-control>
+                                                <label for="location">Location of BagiFree/Swap:</label>
+                                                &nbsp;&nbsp;&nbsp;<button id="location" nz-button nzType="primary" (click)="addAddress('Add', null)" >Add Address +</button>
+                                              </nz-form-control>
+                                            </nz-form-item>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                    <div class="row">
+                                      <div class="col-md-4">
+                                          <div class="form-group">
+                                            <nz-form-item>
+                                              <nz-form-control nzErrorTip="Please enter product Condition!">
+                                                  <label for="condition">Condition:</label>
+                                                  <nz-select nzAllowClear nzPlaceHolder="Choose" formControlName="condition" id="condition"  nzSize="large">
+                                                      <nz-option nzValue="3" nzLabel="Used"></nz-option>
+                                                      <nz-option nzValue="4" nzLabel="Like New"></nz-option>
+                                                      <nz-option nzValue="5" nzLabel="Brand New"></nz-option>
+                                                  </nz-select>
+                                              </nz-form-control>
+                                            </nz-form-item>
+                                            </div>
+                                      </div>
+                                      <div class="col-md-4">
+                                          <div class="form-group">
+                                            <nz-form-item>
+                                              <nz-form-control nzErrorTip="Please enter age of Product!">
+                                                  <label for="age">Age of Product:</label>
+                                                  <nz-select nzAllowClear nzPlaceHolder="Choose" formControlName="productAge" id="age"  nzSize="large">
+                                                      <nz-option nzValue="1" nzLabel="1 - 6 Months"></nz-option>
+                                                      <nz-option nzValue="2" nzLabel="6 - 12 Months"></nz-option>
+                                                      <nz-option nzValue="3" nzLabel="1 - 3 Years"></nz-option>
+                                                      <nz-option nzValue="4" nzLabel="More than 3 Years"></nz-option>
+                                                  </nz-select>
+                                              </nz-form-control>
+                                            </nz-form-item>
+                                            </div>
+                                      </div>
+                                      <div class="col-md-4">
+                                          <div class="form-group">
+                                            <nz-form-item>
+                                              <nz-form-control nzErrorTip="Please enter Product Weight(KG)!">
+                                                  <label for="weight">Weight (KG):</label>
+                                                  <nz-input-group nzSearch nzSize="large">
+                                                      <nz-input-number class="weight" id="weight" placeholder="Weight (KG)" formControlName="weight" nzSize="large" [nzMin]="0.1" [nzStep]="0.1"></nz-input-number>
+                                                    </nz-input-group>
+                                                    <ng-template #suffixIconButton>
+                                                      <button nzSize="large" nz-button nzType="primary" nzSearch
+                                                      onclick="window.open('https://easyparcel.com/my/en/calculator', '_blank', 'directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,resizable=0,width=500, height=650')"
+                                                      ><i nz-icon nzType="calculator"></i></button>
+                                                    </ng-template>
+                                              </nz-form-control>
+                                            </nz-form-item>
+                                            </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                      <nz-form-item>
+                                        <nz-form-control nzErrorTip="Please enter Product Description!">
+                                            <label for="exampleTextarea1">Description</label
+                                              ><textarea
+                                                formControlName="Description"
+                                                class="form-control"
+                                                id="exampleTextarea1"
+                                                placeholder="Description"
+                                                rows="4"
+                                              ></textarea>
+                                        </nz-form-control>
+                                      </nz-form-item>
+                                    </div>
+                                  </form>
+                                </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col-md-12">
+                                      <div *ngIf="fileList?.length == 0 ">
+                                          <button disabled="true" nz-button nzType="primary" style="float:right" [nzLoading]="isLoadingOne" (click)="onSubmit()" > + Post BagiFree / Swap</button>
+                                      </div>
+                                      <div *ngIf="fileList?.length > 4 ">
+                                          <button disabled="true" nz-button nzType="primary" style="float:right" [nzLoading]="isLoadingOne" (click)="onSubmit()" > + Post BagiFree / Swap</button>
+                                      </div>
+                                      <div *ngIf="fileList?.length >= 1 && fileList?.length <= 4">
+                                          <button [disabled]="!fg1.valid" nz-button nzType="primary" style="float:right" [nzLoading]="isLoadingOne" (click)="onSubmit()" > + Post BagiFree / Swap</button>
+                                      </div>
+                                      <!-- <button [disabled]="fL.length == 0 || fL.length > 4 && !fg1.valid" nz-button nzType="primary" style="float:right" (click)="onSubmit()" > + Post BagiFree / Swap</button> -->
+                                  </div>
+                              </div>
+                            </ng-template>
+                          </ngb-tab>
+              </ngb-tabset>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- about section end -->
+
+
+
+<nz-modal 
+[(nzVisible)]="addresshow" 
+[nzTitle]="'Add new address'" 
+(nzOnCancel)="handleCancel()" 
+(nzOnOk)="handleOk()"
+[nzOkLoading]="isAddressOKLoading"
+[nzWidth]="700">
+  <form nz-form [formGroup]="fg"  >
+    <!-- <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="address1">Address 1</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid address!">
+        <input nz-input formControlName="address1"  />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="address2">Address 2</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your address!">
+        <input
+          nz-input
+          formControlName="address2"
+          type="text"
+        />
+      </nz-form-control>
+    </nz-form-item> -->
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="6" nzFor="city" nzRequired>City</nz-form-label>
+      <nz-form-control [nzSm]="6" [nzXs]="6" nzErrorTip="Please input your City!">
+        <input
+          style="width: 400px;"
+          nz-input
+          type="text"
+          formControlName="city"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="6" nzFor="state" nzRequired>State</nz-form-label>
+      <nz-form-control [nzSm]="6" [nzXs]="6" nzErrorTip="Please input your State!">
+        <input
+          style="width: 400px;"
+          nz-input
+          type="text"
+          formControlName="state"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <!-- <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="6" nzFor="postal_code">Postal Code</nz-form-label>
+      <nz-form-control [nzSm]="6" [nzXs]="6" nzErrorTip="Please input your Postal Code!">
+        <input
+          nz-input
+          type="number"
+          (keypress)="numberOnly($event)"
+          formControlName="postal_code"
+        />
+      </nz-form-control>
+    </nz-form-item> -->
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="6" nzFor="country" nzRequired>Country</nz-form-label>
+      <nz-form-control [nzSm]="6" [nzXs]="6" nzErrorTip="Please input your Country!">
+        <nz-select
+          style="width: 400px;"
+          nzShowSearch
+          formControlName="country"
+          nzAllowClear
+          nzPlaceHolder="Select country"
+    >
+      <nz-option nzLabel="{{country.name}}"  *ngFor="let country of countries_;" nzValue="{{country.name}}"></nz-option>
+      </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    </form>
+</nz-modal>

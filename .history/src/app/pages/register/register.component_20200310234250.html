@@ -1,0 +1,130 @@
+<!-- breadcrumb start -->
+<div class="breadcrumb-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="page-title">
+          <h2>create account</h2>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <nav aria-label="breadcrumb" class="theme-breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="'/home/one'">Home</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+              create account
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- breadcrumb End -->
+<!-- section start -->
+<section class="register-page section-b-space">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h3>create account</h3>
+        <div class="theme-card">
+          <form class="theme-form" [formGroup]="form">
+            <div class="form-row">
+              <div class="col-md-6">
+                <label for="email">Username <span style="color:red;">*</span> <span  *ngIf="username.status === 'INVALID'" style="color:red;font-size: 12px;margin-left: 5px">Minimum 4 characters</span></label>
+                <input
+                  type="text"
+                  required
+                  class="form-control"
+                  formControlName="username"
+                  id="fname"
+                  (keydown.space)="$event.preventDefault();"
+                  placeholder="Username"
+                />
+              
+              </div>
+              <div class="col-md-6">
+                <label for="email">email <span style="color:red;">*</span>  <span  *ngIf="email.invalid" style="color:red;font-size: 12px;margin-left: 5px">Invalid email format</span> </label>
+                <input
+                 email
+                  class="form-control"
+                  formControlName="email"
+                  (keydown.space)="$event.preventDefault();"
+                  id="email"
+                  required
+                  placeholder="Email"
+                  
+                />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col-md-6">
+                <label for="review">Password <span style="color:red;">*</span> <span  *ngIf="password.invalid" style="color:red;font-size: 12px;margin-left: 5px">Minimum 6 characters</span>  </label>
+                <input
+                  type="password"
+                  autocomplete="new-password"
+                  class="form-control"
+                  (keydown.space)="$event.preventDefault();"
+                  formControlName="password"
+                  id="review"
+                  placeholder="Enter your password"
+                  
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="email">Phone No <span style="color:red;">*</span> <span  *ngIf="mobile.invalid" style="color:red;font-size: 12px;margin-left: 5px">Minimum 10 characters</span>  </label>
+                <input
+                  type="number"
+                  (keypress)="numberOnly($event)"
+                  class="form-control"
+                  formControlName="mobile"
+                  id="email"
+                  placeholder="xxxxxxxxxx"                 
+                />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col-md-6">
+                <label for="email">Display Mobile No <span style="color:red;">*</span>  <span  *ngIf="mobileOption.invalid" style="color:red;font-size: 12px;margin-left: 5px">Select choice</span> </label>
+                <div class="product-page-filter">
+                  <nz-select
+                    style="width: 400px;"
+                    nzShowSearch
+                    formControlName="mobileOption"
+                    nzAllowClear
+                    [nzPlaceHolder]="'Please Choose'"
+                  >
+                    <nz-option 
+                    nzLabel="Display my phone number publicly" 
+                    nzValue="3"
+                    ></nz-option>
+                    <nz-option
+                      nzLabel="Display upon approval"
+                      nzValue="1"
+                    ></nz-option>
+                    <!-- <nz-option
+                      nzLabel="Display publicly"
+                      nzValue="2"
+                    ></nz-option> -->
+                    
+                  </nz-select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                  <button nz-button nzType="primary" [disabled]="form.invalid" [nzSize]="'large'" (click)="onRegister()" [nzLoading]="isLoadingOne">Create Account</button>
+                  <!-- <button  class="btn btn-solid" [disabled]="form.invalid" (click)="onRegister()">
+                      create Account
+                  </button>  -->&nbsp;&nbsp;
+                  <input #inputTerm type="checkbox" name="terms" id="terms" formControlName="terms" required>&nbsp;
+                  <label for="terms"><span  *ngIf="terms.invalid" style="color:red;"><small>You must accept the terms and condition first!</small> <br/><br/> </span>I accept the <a routerLink="/pages/terms" target="_blank">terms and condition</a>.</label>     
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--Section ends-->

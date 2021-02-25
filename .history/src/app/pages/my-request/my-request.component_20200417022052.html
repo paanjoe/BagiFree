@@ -1,0 +1,201 @@
+<div class="dashboard-right">
+  <div class="dashboard">
+      <div class="page-title">
+          <h2>List of Your Requested BagiFree or Swap Item</h2>
+      </div>
+      <nz-tabset>
+        <nz-tab nzTitle="BagiFree">
+            <nz-table [nzScroll]="{ x: '850px' }" [nzPageSize]="5" #products [nzData]="requestList" [nzLoading]="giveawayLoading">
+                <thead>
+                  <tr>
+                    <th> </th>
+                    <th>Product</th>
+                    <th>Owner</th>
+                    <th>Location of BagiFree</th>
+                    <th>Details</th>
+                    <!-- <th>Status</th> -->
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of products.data">
+                    <td><nz-avatar [nzShape]="'square'" [nzSize]="64" [nzSrc]="data.imgURL"></nz-avatar></td>
+                    <td>{{ data.products_productName }}</td>
+                    <td>{{ data.user_username }}</td>
+                    <td>{{ data.address_city + ', '+ data.address_state + ', ' + data.address_country }}</td>
+                    <td>
+                      <button (click)="bagifreeShow(data)" nz-button>Request Details</button>
+                    </td>
+                    <!-- <td> 
+                      <nz-tag *ngIf="data.product_request_approved == null" [nzColor]="'gold'">PENDING APPROVAL</nz-tag>
+                      <nz-tag *ngIf="data.product_request_approved == true && data.product_request_isSelfPickup == null" [nzColor]="'gold'">PLEASE CHOOSE SELF-PICKUP DATE & TIME</nz-tag>
+                      <nz-tag *ngIf="data.product_request_isSelfPickup == true &&  data.product_request_pickupDate != null" [nzColor]="'green'">BAGIFREE DONE</nz-tag>
+                      <nz-tag *ngIf="data.product_request_approved == false"[nzColor]="'red'">REJECTED</nz-tag>
+                    </td> -->
+                    <td>
+                      <div *ngIf="data.product_request_approved == true && data.product_request_isSelfPickup == null">
+                        <a [routerLink]="['/home/bagifree/product', data.products_id]" class="btn btn-primary">PROCEED</a>
+                      </div>
+                      <div *ngIf="data.product_request_isSelfPickup == true &&  data.product_request_pickupDate != null">
+                        <button (click)="openrating(data)" nz-button>Rate Donor</button>
+                      </div>
+                      <div *ngIf="data.product_request_approved == false || data.product_request_approved == null">
+                        <button disabled nz-button>PROCEED</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </nz-table>  
+        </nz-tab>
+        <nz-tab nzTitle="Swap">
+          <nz-table [nzScroll]="{ x: '850px' }" [nzPageSize]="5" #swap [nzData]="requestSwapList" [nzLoading]="swapLoading">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Product</th>
+                <th>Owner</th>
+                <th>Location of Swap</th>
+                <th>Details</th>
+                <!-- <th>Status</th> -->
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of swap.data">
+                <td><nz-avatar [nzShape]="'square'" [nzSize]="64" [nzSrc]="data.imgURL"></nz-avatar></td>
+                <td>{{ data.swap_productName }}</td>
+                <td>{{ data.user_username }}</td>
+                <td>{{ data.address_city + ', ' + data.address_state + ', ' + data.address_country }}</td>
+                <td><button (click)="swapShow(data)" nz-button>Request Details</button></td>
+                <!-- <td>
+                  <nz-tag *ngIf="data.swap_request_approved == null" [nzColor]="'gold'">PENDING APPROVAL</nz-tag>
+                  <nz-tag *ngIf="data.swap_request_approved == true && data.swap_request_isSelfPickup == null" [nzColor]="'gold'">PLEASE CHOOSE SELF-PICKUP DATE & TIME</nz-tag>
+                  <nz-tag *ngIf="data.swap_request_isSelfPickup == true && data.swap_request_pickupDate != null" [nzColor]="'green'">SWAP DONE</nz-tag>
+                  <nz-tag *ngIf="data.swap_request_approved == false"[nzColor]="'red'">REJECTED</nz-tag>
+                </td> -->
+                <td>
+                  <div *ngIf="data.swap_request_approved == true && data.swap_request_isSelfPickup == null">
+                    <a [routerLink]="['/home/swap/product', data.swap_id]" class="btn btn-primary">PROCEED</a>
+                  </div>
+                  <div *ngIf="data.swap_request_isSelfPickup == true && data.swap_request_pickupDate != null">
+                    <button (click)="openrating2(data)" nz-button>Rate Swapper</button>
+                  </div>
+                  <div *ngIf="data.swap_request_approved == false || data.swap_request_approved == null">
+                    <button disabled nz-button>PROCEED</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>  
+        </nz-tab>
+      </nz-tabset>  
+  </div>
+</div>
+
+<!-- BAGIFREE MODAL -->
+<nz-modal nzWidth="800" [(nzVisible)]="isVisible" nzTitle="Request Details" (nzOnCancel)="bagifreeCancel()" (nzOnOk)="bagifreeOK()">
+  <div class="well text-center">
+    <div class="row">
+      <div class="col-md-12">
+        <span>
+          <img src="{{this.productDetailsForm.controls['imgURL'].value}}" class="rounded" style="width:150; height:150px;" alt="..."> &nbsp;
+        </span>
+      </div>
+    </div>
+  </div>
+  
+  <br/>
+
+  <nz-descriptions *ngIf="showContact === true" nzTitle="Contact Information" nzBordered>
+    <nz-descriptions-item nzTitle="Mobile"><a href="tel:{{this.productDetailsForm.controls['mobile'].value}}">{{ productDetailsForm.controls['mobile'].value }}</a></nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Email"><a href="mailto:{{ this.productDetailsForm.controls['email'].value }}?Subject=BagiFree%20Request" target="_top">{{ productDetailsForm.controls['email'].value }}</a></nz-descriptions-item>
+  </nz-descriptions>
+  
+  <br/>
+
+  <nz-descriptions [nzSize]="'small'" nzTitle="Requested Item" nzBordered>
+    <nz-descriptions-item [nzSpan]="4" nzTitle="BagiFree Name">{{ this.productDetailsForm.controls['productname'].value }}</nz-descriptions-item>
+    <nz-descriptions-item [nzSpan]="4" nzTitle="BagiFree Brand">{{ this.productDetailsForm.controls['brand'].value }}</nz-descriptions-item>
+    <nz-descriptions-item [nzSpan]="4" nzTitle="BagiFree Age">{{ this.productDetailsForm.controls['age'].value }}</nz-descriptions-item>
+    <nz-descriptions-item [nzSpan]="4" nzTitle="BagiFree Condition">{{ this.productDetailsForm.controls['condition'].value }}</nz-descriptions-item>
+    <nz-descriptions-item [nzSpan]="4" nzTitle="BagiFree Category">{{ this.productDetailsForm.controls['category'].value }}</nz-descriptions-item>
+    <nz-descriptions-item [nzSpan]="4" nzTitle="BagiFree Description">{{ this.productDetailsForm.controls['description'].value }}</nz-descriptions-item>
+    <nz-descriptions-item [nzSpan]="4" nzTitle="BagiFree Location">{{ this.productDetailsForm.controls['address'].value }}</nz-descriptions-item>
+  </nz-descriptions>
+
+</nz-modal>
+
+<!-- SWAP MODAL -->
+<nz-modal nzWidth="800" [(nzVisible)]="isSwapVisible" nzTitle="Request Details" (nzOnCancel)="swapCancel()" (nzOnOk)="swapOK()">
+  <div class="well text-center">
+    <div class="row">
+      <div class="col-md-12">
+        <span>
+          <img src="{{this.swapDetailsForm.controls['imgURL'].value}}" class="rounded" style="width:150; height:150px;" alt="..."> &nbsp;
+        </span>
+      </div>
+    </div>
+  </div>
+  
+  <br/>
+
+  <nz-descriptions *ngIf="swaphowContact === true" nzTitle="Contact Information" nzBordered>
+    <nz-descriptions-item nzTitle="Mobile"><a href="tel:{{this.swapDetailsForm.controls['mobile'].value}}">{{ swapDetailsForm.controls['mobile'].value }}</a></nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Email"><a href="mailto:{{ this.swapDetailsForm.controls['email'].value }}?Subject=BagiFree%20Request" target="_top">{{ swapDetailsForm.controls['email'].value }}</a></nz-descriptions-item>
+  </nz-descriptions>
+  
+  <br/>
+
+
+  <nz-descriptions [nzSize]="'small'" nzTitle="My Swap Request Item" nzBordered>
+  <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Item">{{ this.swapDetailsForm.controls['productname'].value }}</nz-descriptions-item>
+  <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Brand">{{ this.swapDetailsForm.controls['sbrand'].value }}</nz-descriptions-item>
+  <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Age">{{ this.swapDetailsForm.controls['age'].value }}</nz-descriptions-item>
+  <nz-descriptions-item [nzSpan]="4" nzTitle="Estimated Value (RM)">RM {{ this.swapDetailsForm.controls['sestVal'].value }}</nz-descriptions-item>
+  <nz-descriptions-item [nzSpan]="4" nzTitle="Preferred Item">{{ this.swapDetailsForm.controls['preferredItem'].value }}</nz-descriptions-item>
+  <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Condition">{{ this.swapDetailsForm.controls['condition'].value }}</nz-descriptions-item>
+  <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Category">{{ this.swapDetailsForm.controls['category'].value }}</nz-descriptions-item>
+  <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Description">{{ this.swapDetailsForm.controls['description'].value }}</nz-descriptions-item>
+  <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Location">{{ this.swapDetailsForm.controls['address'].value }}</nz-descriptions-item>
+  </nz-descriptions>
+
+  <br/><br/>
+
+  <nz-descriptions [nzSize]="'small'" nzTitle="My Offered Item" nzBordered>
+  <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Item">{{ this.myItemForm.controls['productname'].value }}</nz-descriptions-item>
+  <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Brand">{{ this.myItemForm.controls['brand'].value }}</nz-descriptions-item>
+  <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Age">{{ this.myItemForm.controls['age'].value }}</nz-descriptions-item>
+  <nz-descriptions-item [nzSpan]="4" nzTitle="Estimated Value (RM)"> RM {{ this.myItemForm.controls['estVal'].value }}</nz-descriptions-item>
+  <nz-descriptions-item [nzSpan]="4" nzTitle="Preferred Item">{{ this.myItemForm.controls['preferredItem'].value }}</nz-descriptions-item>
+  <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Condition">{{ this.myItemForm.controls['condition'].value }}</nz-descriptions-item>
+  <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Category">{{ this.myItemForm.controls['category'].value }}</nz-descriptions-item>
+  <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Description">{{ this.myItemForm.controls['description'].value }}</nz-descriptions-item>
+  <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Location">{{ this.myItemForm.controls['address'].value }}</nz-descriptions-item>
+  </nz-descriptions>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="ratingvisible" nzTitle="Please rate this user" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-lg-12">
+        <nz-rate [(ngModel)]="rate" class="large" [nzCharacter]="characterIcon"></nz-rate>
+        <ng-template #characterIcon><i nz-icon nzType="heart" nzTheme="fill"></i></ng-template>
+        <hr/>
+        <textarea placeholder='Please enter your feedback remarks here' rows="4" nz-input [(ngModel)]="feedback"></textarea>
+      </div>
+    </div>
+  </div>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="ratingVisible2" nzTitle="Please rate this user" (nzOnCancel)="handleCancel2()" (nzOnOk)="handleOk2()">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-lg-12">
+        <nz-rate [(ngModel)]="rate2" class="large" [nzCharacter]="characterIcon"></nz-rate>
+        <ng-template #characterIcon><i nz-icon nzType="heart" nzTheme="fill"></i></ng-template>
+        <hr>
+        <textarea placeholder='Please enter your feedback remarks here' rows="4" nz-input [(ngModel)]="feedback2"></textarea>
+      </div>
+    </div>
+  </div>
+</nz-modal>

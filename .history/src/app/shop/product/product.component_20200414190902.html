@@ -1,0 +1,24 @@
+<div class="img-wrapper">
+  <div class="lable-block">
+  </div>
+   <div class="front">
+      <a [routerLink]="['/home/bagifree/product', products.id]">
+        <div class="card" style="height: 300px;">
+          <div class="hovereffect">
+            <img class="card-img-top" class="card-img-top image-container" [src]="products.productImage_Ref[0].productImage" >
+            <div class="overlay">
+              <a class="info" [routerLink]="['/home/bagifree/product', products.id]">View BagiFree</a>
+            </div>
+          <div class="card-body text-center">
+            <h6 class="card-title"><a *ngIf="products.productName.length > 13" style="color:#FFB100" [routerLink]="['/home/bagifree/product', products.id]">{{products.productName + '...'}}</a>
+              <a *ngIf="products.productName.length <= 13" style="color:#FFB100" [routerLink]="['/home/bagifree/product', products.id]">{{products.productName}}</a></h6>
+            <p class="card-text"><b><small>Posted by: {{products.userid.username}}</small></b><br/>
+              <nz-rate class="large" [ngModel]="avg" nzAllowHalf nzDisabled [nzCharacter]="characterIcon"></nz-rate>
+              <ng-template #characterIcon><i nz-icon nzType="heart" nzTheme="fill" style="font-size: 16px;"></i></ng-template>
+            </p>
+          </div>
+          </div>
+      </div>
+    </a>
+  </div> 
+</div>

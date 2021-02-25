@@ -1,0 +1,114 @@
+<div class="dashboard-right">
+  <div class="dashboard">
+      <div class="row" style="margin-bottom: 5px;">
+        <div class="col-6 col-xs-12">
+          <div class="page-title">
+            <h2>Address Book</h2>
+        </div>
+        </div>
+        <div class="col-6 col-xs-12">
+          <button nz-button nzType="primary" style="float: right;" (click)="addAddress('Add', null)">Add Address +</button>
+        </div>
+      </div>
+     
+      <nz-table [nzScroll]="{ x: '850px' }" [nzPageSize]="5" #basicTable [nzData]="addressList" [nzLoading]="isAddressLoading">
+        <thead>
+          <tr>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Postcode</th>  
+            <th>Country</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of basicTable.data">
+            <td *ngIf="data.address1 != ''">{{ data.address1 + ', ' + data.address2 }}</td>
+            <td *ngIf="data.address1 == ''">-</td>
+            <td>{{ data.city }}</td>
+            <td>{{ data.state}}</td>
+            <td>{{ data.postalCode || '-' }}</td>
+            <td>{{ data.country }}</td>
+            <td>
+              <button nz-button nzType="primary" (click)="addAddress('Update', data)"  ><i nz-icon nzType="edit" style="margin-bottom: 5px"></i></button>
+              <nz-divider nzType="vertical"></nz-divider>
+              <button nz-button nzType="danger" (click)="showDeleteConfirm(data)" ><i nz-icon nzType="delete" style="margin-bottom: 5px" ></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>  
+  </div>
+</div>
+
+<nz-modal 
+[(nzVisible)]="isVisible" 
+[nzTitle]="this.modalTitle" 
+(nzOnCancel)="handleCancel()" 
+(nzOnOk)="handleOk(this.modalTitle)"
+[nzOkLoading]="isAddressOKLoading"
+[nzWidth]="700">
+  <form nz-form [formGroup]="fg"  >
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="address1">Address 1</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid address!">
+        <input nz-input formControlName="address1"  />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="address2">Address 2</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your address!">
+        <input
+          nz-input
+          formControlName="address2"
+          type="text"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="6" nzFor="city" nzRequired>City</nz-form-label>
+      <nz-form-control [nzSm]="6" [nzXs]="6" nzErrorTip="Please input your City!">
+        <input
+          nz-input
+          type="text"
+          formControlName="city"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="6" nzFor="state" nzRequired>State</nz-form-label>
+      <nz-form-control [nzSm]="6" [nzXs]="6" nzErrorTip="Please input your State!">
+        <input
+          nz-input
+          type="text"
+          formControlName="state"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="6" nzFor="postal_code">Postal Code</nz-form-label>
+      <nz-form-control [nzSm]="6" [nzXs]="6" nzErrorTip="Please input your Postal Code!">
+        <input
+          nz-input
+          type="number"
+          (keypress)="numberOnly($event)"
+          formControlName="postal_code"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="6" nzFor="country" nzRequired>Country</nz-form-label>
+      <nz-form-control [nzSm]="6" [nzXs]="6" nzErrorTip="Please input your Country!">
+        <nz-select
+      style="width: 200px;"
+      nzShowSearch
+      formControlName="country"
+      nzAllowClear
+      nzPlaceHolder="Select country"
+    >
+      <nz-option nzLabel="{{country.name}}"  *ngFor="let country of countries;" nzValue="{{country.name}}"></nz-option>
+      </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    </form>
+</nz-modal>

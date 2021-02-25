@@ -1,0 +1,56 @@
+<!-- breadcrumb start -->
+<div class="breadcrumb-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="page-title">
+                    <h2>customer's login</h2>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <nav aria-label="breadcrumb" class="theme-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [href]="'/home/one'">Home</a></li>
+                        <li class="breadcrumb-item active" >login</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb End -->
+<!-- section start -->
+<section class="login-page section-b-space">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <h3>Login</h3>
+                <div class="theme-card" >
+                    <form class="theme-form" [formGroup]="form">
+                        <div class="form-group">
+                            <label for="email">Username <span *ngIf="username.invalid" style="color:red;font-size: 12px;margin-left: 5px">Minimum 4 characters</span></label>
+                            <input type="text" class="form-control" formControlName="username"  placeholder="Username" required="">
+                        </div>
+                        <div class="form-group">
+                            <label for="review">Password<span *ngIf="password.invalid" style="color:red;font-size: 12px;margin-left: 5px">Minimum 6 characters</span></label>
+                            <input type="password" class="form-control" formControlName="password"  placeholder="Enter your password" required="">
+                        </div>
+                        <a style="float: right;" href="/pages/forgetpassword">Forgot Password?</a>
+                        <br>
+                        <button style="width: 100px;" nz-button nzType="primary" [nzSize]="'large'" (click)="onLogin()" [nzLoading]="isLoadingOne">Login</button>
+                        <!-- <button class="btn btn-solid" (click)="onLogin()" [disabled]="form.invalid">Login</button> -->
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-6 right-login">
+                <h3>New DONOR OR SWAPPER</h3>
+                <div class="theme-card authentication-right">
+                    <h6 class="title-font">Create FREE Account</h6>
+                    <p>Please sign up for a FREE account. Registration is quick and easy. It allows you to donate, give away, swap stuffs and also make request for stuffs you like.</p>
+                    <button class="btn btn-solid" routerLink="/pages/register">Create FREE Account</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Section ends-->

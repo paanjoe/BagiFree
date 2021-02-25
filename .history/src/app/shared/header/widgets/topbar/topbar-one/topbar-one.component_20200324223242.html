@@ -1,0 +1,70 @@
+<div class="row">
+  <!-- Logo header -->
+  <div class="col-lg-3">
+    <ul class="header-dropdown">
+      <li class="compare">
+        <a [routerLink]="'/home/main'"
+          ><img
+            src="../../../../../../assets/images/bagifree-logo.png"
+            style="width: 100px;"
+            alt=""
+        /></a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Menu -->
+  <div class="col-lg-9 text-right" *ngIf="!productsService?.catalogMode">
+    <ul class="header-dropdown">
+          <li class="compare">
+            <a [routerLink]="'/home/readmore'"
+              ><i class="fa fa-question-circle" style="color:orange;" aria-hidden="true"></i>
+              &nbsp;{{ "How It Works" | translate }}
+            </a>
+          </li>
+
+      <li class="compare">
+        <a style="text-transform: uppercase;" [routerLink]="'/pages/faq'"
+          ><i class="fa fa-question-circle" style="color:orange;" aria-hidden="true"></i>
+          &nbsp;{{ "faq" | translate }}
+        </a>
+      </li>
+
+      <li class="mobile-wishlist">
+        <a style="color: hotpink;" [routerLink]="'/pages/donate'">
+          <i class="heart fa fa-heart fa-beat" style="color: hotpink;" aria-hidden="true"></i>
+          &nbsp;{{ "donate" | translate }}
+        </a>
+        <a style="color: hotpink;" [routerLink]="'/pages/donate'">
+          <i class="heart fa fa-heart fa-beat" style="color: hotpink;" aria-hidden="true"></i>
+          &nbsp;{{ "donate" | translate }}
+        </a>
+      </li>
+      
+
+      <li class="onhover-dropdown mobile-account" *ngIf="currentUser">
+        <i class="fa fa-user" aria-hidden="true" style="color:orange;"></i> 
+          &nbsp;{{ currentUser ? (currentUser.username | translate) : ("login/register" | translate) }}
+        <ul class="onhover-show-div" *ngIf="currentUser">
+          <!--  -->
+          <li *ngIf="currentUser">
+            <a [routerLink]="'/pages/dashboard'" data-lng="en">
+              {{ "my dashboard" | translate }}
+            </a>
+          </li>
+          <!--  -->
+          <li *ngIf="currentUser">
+            <a (click)="onLogout()" [routerLink]="'/pages/login'" data-lng="es">
+              {{ "logout" | translate }}
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li class="mobile-account" *ngIf="!currentUser" [routerLink]="'/pages/login'">
+        <i style="color: orange;" class="fa fa-user" aria-hidden="true"></i> 
+        &nbsp;{{ currentUser ? ("my-account" | translate): ("login/register" | translate) }}
+      </li>
+    </ul>
+  </div>
+</div>

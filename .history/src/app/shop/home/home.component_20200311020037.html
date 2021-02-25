@@ -1,0 +1,39 @@
+
+<app-homearea></app-homearea>
+<app-banner-info></app-banner-info>
+<div *ngIf="statusLoadBagiFree === true" class="text-center">
+    <br/><br/>
+    <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+</div>
+<app-product-slider *ngIf="statusLoadBagiFree === false" [products]="products"></app-product-slider>
+<div class="container">
+        <div class="row">
+            <div class="col-md-2"><p></p></div>
+            <div class="col-md-8">
+                <div class="text-center">
+                    <a routerLink="/home/main"><img class="img-fluid" src="../../../assets/images/ads/2.png"/></a>
+                </div>
+            </div>
+            <div class="col-md-2"><p></p></div>
+        </div>
+</div>
+<br/>
+<div *ngIf="statusLoadSwap === true" class="text-center">
+    <br/><br/>
+    <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+</div>
+<app-product-tab *ngIf="statusLoadSwap === false" [swaps]="swaps"></app-product-tab>
+<div class="container">
+        <div class="row">
+            <div class="col-md-2"><p></p></div>
+            <div class="col-md-8">
+                <div class="text-center">
+                    <a routerLink="/home/main"><img class="img-fluid" src="../../../assets/images/ads/2.png"/></a>
+                </div>
+            </div>
+            <div class="col-md-2"><p></p></div>
+        </div>
+</div>
+<br/>
+<!-- <app-newsletter></app-newsletter> -->
+

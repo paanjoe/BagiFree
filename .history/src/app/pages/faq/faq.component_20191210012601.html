@@ -1,0 +1,48 @@
+<!-- breadcrumb start -->
+<div class="breadcrumb-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="page-title">
+                    <h2>faq</h2>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <nav aria-label="breadcrumb" class="theme-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="'/home/one'">home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">faq</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb end -->
+<!-- section start-->
+<section class="faq-section section-b-space">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="accordion theme-accordion" id="accordionExample">
+                    <div class="card" *ngFor="let faq of listFAQ">
+                        <div class="card-header" id="headingOne">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" [attr.data-target]="'#toggleDemo-' + faq.id" aria-expanded="true" aria-controls="collapseOne">
+                                   {{faq.Title}}
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="toggleDemo-{{faq.id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                            <div class="card-body" [innerHTML]="faq.Content">
+                                <!-- <p>{{ faq.Content }}</p> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Section ends-->

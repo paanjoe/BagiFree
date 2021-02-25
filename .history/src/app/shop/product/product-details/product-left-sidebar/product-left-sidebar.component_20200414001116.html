@@ -1,0 +1,350 @@
+<!-- breadcrumb start -->
+<div class="breadcrumb-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="page-title">
+          <h2>BagiFree</h2>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <nav aria-label="breadcrumb" class="theme-breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="'/home/main'">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Giveaway</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- breadcrumb End -->
+<!-- section start -->
+<section class="section-b-space">
+  <div class="collection-wrapper">
+    <div class="container">
+      <div class="row">
+        <!-- Sidebar -->
+        <div class="col-sm-3 collection-filter">
+          <product-details-sidebar></product-details-sidebar>
+        </div>
+        <!-- Product -->
+        <div class="col-lg-9 col-sm-12 col-xs-12">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-xl-12">
+                <div class="filter-main-btn mb-2">
+                  <span class="filter-btn" (click)="mobileSidebar()"><i class="fa fa-bars" aria-hidden="true"></i>
+                    sidebar</span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <ngx-slick-carousel class="product-slick" id="p-zoom" #slickModal="slick-carousel"
+                  [config]="slideConfig">
+                  <div ngxSlickItem *ngFor="let image of pImage">
+                    <div>
+                      <!-- <ngx-img-zoom 
+                        [zoomImageSrc]="imageURL"
+                        [previewImageSrc]="imageURL"
+                        [imgStyle]="'width:100%; max-height:100%;object-fit:cover;'"
+                        [resultStyle]="'background-repeat: no-repeat; z-index: 100; position:absolute;background-size: 1614px 2064px;-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); top: 0;left: 100%;'"
+                        [lensStyle]="'width:100px; height:100px'" [containerStyle]="'position: relative;'"
+                        [enableZoom]="enableZoom"
+                        >
+                      </ngx-img-zoom> -->
+                      <pinch-zoom>
+                        <img [src]="imageURL" /> 
+                      </pinch-zoom>
+                    </div>
+                  </div>
+                </ngx-slick-carousel>
+                <div class="row">
+                  <div class="col-12">
+                    <ngx-slick-carousel class="slider-nav" #slickModal="slick-carousel" [config]="slideNavConfig">
+                      <div ngxSlickItem *ngFor="let image of pImage">
+                        <div>
+                          <img (mouseover)="onMouseOver($event)" [src]="image.productImage" alt="" class="img-fluid" style="width:100%; max-height:150px;object-fit:cover; ">
+                        </div>
+                      </div>
+                    </ngx-slick-carousel>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 rtl-text">
+                <div class="product-right">
+                  <h2 style="color:#6799A3;">{{product?.productName}}</h2>
+                  <h4>Posted by {{product?.userid?.username}}</h4>
+                  <br/>
+                  <div class="product-description border-product">
+                    <div *ngIf="uid != null && req?.length < 5">
+                        <span *ngIf="userObj?.id != uid  && reqObj == null"><button (click)="showRemarks()" class="btn btn-solid">Request BagiFree</button> &nbsp;</span>
+                        <span *ngIf="userObj?.id != uid  && reqObj != null && isApproved == false"><button  class="btn btn-solid" [disabled]="btnDisabled">Request BagiFree</button>&nbsp;</span>  
+                        <span *ngIf="userObj?.id != uid  && isApproved == true && isDecided == false"><button class="btn btn-solid" (click)="showModal2()">Self-Pickup</button>&nbsp;</span>
+                        <span *ngIf="userObj?.id != uid  && isApproved == true && isDecided == true"><button [disabled]="btnDisabled" class="btn btn-solid" (click)="showModal2()">Self-Pickup</button>&nbsp;</span>
+                        <span *ngIf="userObj?.mobileOption == 3"><button (click)="showConfirm()" class="btn btn-solid">Contact Information</button>&nbsp;</span>
+                        <span *ngIf="userObj?.mobileOption == 1 && reqObj != null && isApproved == true"><button (click)="showConfirm()" class="btn btn-solid">Contact Information</button>&nbsp;</span>
+                        <span *ngIf="product?.userid?.id == uid"><button (click)="showEdit(product)" class="btn btn-solid">Edit Details</button>&nbsp;</span>
+                    </div>
+                    <div *ngIf="uid != null && req?.length >= 5">
+                        <button *ngIf="userObj?.id != uid  && reqObj != null && isApproved == false"  class="btn btn-solid" [disabled]="btnDisabled">Request Closed</button>
+                        <button *ngIf="userObj?.id != uid  && reqObj == null && isApproved == false"  class="btn btn-solid" [disabled]="btnDisabled">Request Closed</button>
+                        <span *ngIf="userObj?.id != uid  && isApproved == true && isDecided == false"><button class="btn btn-solid" (click)="showModal2()">Self-Pickup</button>&nbsp;</span>
+                        <span *ngIf="userObj?.id != uid  && isApproved == true && isDecided == true"><button [disabled]="btnDisabled" class="btn btn-solid" (click)="showModal2()">Self-Pickup</button>&nbsp;</span>
+                        <span *ngIf="userObj?.mobileOption == 3"><button (click)="showConfirm()" class="btn btn-solid">Contact Information</button>&nbsp;</span>
+                        <span *ngIf="userObj?.mobileOption == 1 && reqObj != null && isApproved == true"><button (click)="showConfirm()" class="btn btn-solid">Contact Information</button>&nbsp;</span>
+                        <span *ngIf="product?.userid?.id == uid"><button (click)="showEdit(product)" class="btn btn-solid">Edit Details</button>&nbsp;</span>
+                    </div>
+                    <div *ngIf="uid == null">
+                      <a [routerLink]="'/pages/login'" ><button class="btn btn-solid">Request BagiFree</button></a>&nbsp;
+                      <span *ngIf="userObj?.mobileOption == 3"><button (click)="showConfirm()" class="btn btn-solid">Contact Information</button>&nbsp;</span>
+                    </div>
+                  </div>
+                  <div class="border-product">
+                    <nz-descriptions [nzSize]="'small'" nzTitle="Product Details" nzBordered>
+                      <nz-descriptions-item [nzSpan]="3" nzTitle="BagiFree Location">{{product?.address?.city + ', ' + product?.address?.state + ', ' + product?.address?.country || '-' }}</nz-descriptions-item>
+                      <nz-descriptions-item [nzSpan]="3" nzTitle="Brand">{{product?.productBrand || '-' }}</nz-descriptions-item>
+                      <nz-descriptions-item [nzSpan]="3" nzTitle="Weight (KG)">{{ product?.productWeight || '-'}} KG</nz-descriptions-item>
+                      <nz-descriptions-item [nzSpan]="3" nzTitle="Condition">{{productOnInit?.condition || '-'}}</nz-descriptions-item>
+                      <nz-descriptions-item [nzSpan]="3" nzTitle="Category">{{productOnInit?.category || '-' }}</nz-descriptions-item>
+                      <nz-descriptions-item [nzSpan]="3" nzTitle="Age">{{productOnInit?.age|| '-' }}</nz-descriptions-item>
+                      <nz-descriptions-item [nzSpan]="3" nzTitle="Description">{{productOnInit?.productDescription || '-' }}</nz-descriptions-item>
+                    </nz-descriptions>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section ends -->
+<!-- Modal size chart -->
+<div class="modal fade" id="sizemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <!-- <h5 class="modal-title" id="exampleModalLabel">{{ product.name }}</h5> -->
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img src="assets/images/size-chart.jpg" alt="" class="img-fluid">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<nz-modal [nzWidth]="800" [(nzVisible)]="isVisible2" nzTitle="Self-Pickup Information" (nzOnCancel)="handleCancel2()"
+(nzOnOk)="handleOk2()">
+<nz-alert
+nzType="info"
+nzMessage="Important Notes"
+nzDescription="Please contact the donor directly after choosing the date and time to ensure the self-pickup went smoothly."
+nzShowIcon
+>
+</nz-alert>
+<br/>
+<form nz-form [formGroup]="selfPickup">
+  <p>
+    <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Choose Pickup Date & Time</nz-form-label>
+  </p>
+  <p>
+    <nz-date-picker
+      nzFormat="yyyy-MM-dd"
+      nzPlaceHolder="Select Date"
+      formControlName="datePicker"
+    ></nz-date-picker>&nbsp;
+    <nz-time-picker nzPlaceHolder="Select Time" [nzMinuteStep]="15" formControlName="timePicker" nzFormat="HH:mm"></nz-time-picker>
+  </p>
+</form>
+</nz-modal>
+
+
+<nz-modal [nzWidth]="800" [(nzVisible)]="isVisible" nzTitle="Delivery Method" (nzOnCancel)="handleCancel()"
+(nzOnOk)="handleOk()">
+<nz-list [nzDataSource]="data" [nzRenderItem]="item" [nzItemLayout]="'horizontal'" [nzLoading]="loading">
+  <ng-template #item let-item>
+    <nz-list-item>
+      <nz-radio-group ngModel="'A'">
+        <label nz-radio nzValue="A"></label>
+      </nz-radio-group>
+      <nz-list-item-meta
+        [nzTitle]="nzTitle"
+        nzAvatar="https://vectorlogo4u.com/wp-content/uploads/2018/09/poslaju-logo-vector-720x340.png"
+        nzDescription="RM 6.70"
+      >
+        <ng-template #nzTitle>
+          <a href="https://ng.ant.design">{{ item.title }}</a>
+        </ng-template>
+      </nz-list-item-meta>
+    </nz-list-item>
+  </ng-template>
+</nz-list>
+
+</nz-modal>
+
+
+
+<nz-modal
+[(nzVisible)]="editModal"
+nzTitle="Edit Details"
+(nzOnCancel)="cancelEdit()"
+(nzOnOk)="editOK()"
+[nzOkLoading]="isEditLoading"
+[nzWidth]="700"
+[nzOkText]="'Update'"
+>
+<form
+  nz-form
+  [nzLayout]="'vertical'"
+  [formGroup]="editForm"
+>
+<nz-form-item>
+  <nz-upload
+  *ngIf="editModal"
+    nzListType="picture-card"
+    [nzFileList]="fileList"
+    [nzShowButton]="'false'"
+    [nzShowUploadList]="showUploadList"
+    [nzPreview]="handlePreview"
+    id="image"
+  >
+  <i nz-icon nzType="plus"></i>
+  <div class="ant-upload-text">Upload</div>
+  </nz-upload>
+  <nz-modal
+    [nzVisible]="previewVisible"
+    [nzContent]="modalContent"
+    [nzFooter]="null"
+    (nzOnCancel)="previewVisible = false"
+  >
+<ng-template #modalContent>
+  <img
+    [src]="previewImage"
+    [ngStyle]="{ width: '100%' }"
+  />
+</ng-template>
+</nz-modal>
+<nz-upload nzType="drag" [nzMultiple]="true" [nzLimit]="4" [nzBeforeUpload]="beforeUpload" [nzFileList]="fileList" >
+  <p class="ant-upload-drag-icon"> <i nz-icon nzType="inbox"></i></p>
+  <p class="ant-upload-text">Click or drag file to this area to upload</p>
+  <p class="ant-upload-hint"> Support for a single or bulk upload. The picture must be lower than 7MB and file type is jpg/png.</p>
+</nz-upload>
+</nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Product Name</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please input your Product Name!">
+      <input nz-input formControlName="pName" placeholder="Product Name" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Product Brand</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please input your Product Brand!">
+      <input nz-input formControlName="pBrand" placeholder="Product Brand" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Product Description</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please input your Product Description!">
+      <textarea
+        nz-input
+        placeholder="Product Description"
+        [nzAutosize]="{ minRows: 6, maxRows: 6 }"
+        formControlName="pDescription"
+      ></textarea>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Product Weight (KG)</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please input your Product Weight (KG)!">
+      <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input nz-input formControlName="pWeight" placeholder="Product Weight"  />
+      </nz-input-group>
+      <ng-template #suffixIconButton>
+        <button nz-button nzType="primary" nzSearch
+        onclick="window.open('https://easyparcel.com/my/en/calculator', '_blank', 'directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,resizable=0,width=500, height=650')"
+        ><i nz-icon nzType="calculator"></i></button>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6"> BagiFree Location </nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please input your Product Location!">
+        <nz-select nzAllowClear nzPlaceHolder="Choose" formControlName="address" id="location">
+            <!-- <nz-option *ngFor="let data of address" [nzValue]="data.id" [nzLabel]="data.address1 + ', ' + data.address2 + ', ' + data.city + ', ' + data.state + ', ' + data.postalCode + ' ' + data.country "></nz-option> -->
+            <nz-option *ngFor="let data of address" [nzValue]="data.id" [nzLabel]="data.finalstring"></nz-option>
+        </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Product Condition</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please select your Product Condition!">
+      <nz-select style="width: 240px;" nzPlaceHolder="Choose" formControlName="pCondition">
+        <nz-option *ngFor="let cond of pCondition" 
+        [nzValue]="cond.productConditionID" 
+        [nzLabel]="cond.productConditionTitle"
+        >
+        </nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Product Age</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please select your Product Size!">
+      <nz-select style="width: 240px;" nzPlaceHolder="Choose" formControlName="pAge">
+        <nz-option *ngFor="let age of pAge" 
+        [nzValue]="age.productAge_ID" 
+        [nzLabel]="age.productAgeTitle"
+        >
+        </nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Product Category</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please select your Product Category!">
+      <nz-select nzPlaceHolder="Choose" formControlName="pCategory">
+        <nz-option *ngFor="let cat of pCategory" 
+        [nzValue]="cat.categoryID" 
+        [nzLabel]="cat.categoryTitle"
+        >
+        </nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Availability</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please select your Product Availability!">
+      <nz-select style="width: 120px;" nzPlaceHolder="Choose" formControlName="isAvailable">
+        <nz-option [nzValue]="'true'" [nzLabel]="'Available'"></nz-option>
+        <nz-option [nzValue]="'false'" [nzLabel]="'Not Available'"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="remarksVisible" nzTitle="Request Remarks" (nzOnCancel)="remarkCancel()" (nzOnOk)="remarkOk(product.id)">
+  <textarea placeholder="Please enter your request remarks to the donor..." rows="4" nz-input [(ngModel)]="remarksField"></textarea>
+</nz-modal>

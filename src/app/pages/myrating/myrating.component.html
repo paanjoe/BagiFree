@@ -1,0 +1,39 @@
+<div class="dashboard-right">
+  <div class="dashboard">
+      <div class="page-title">
+          <h2>My Rating</h2>
+      </div>
+        <div class="welcome-msg">
+            
+            <br/>
+            <nz-card nzTitle="Overall Ratings">
+              <div class="col-md-12">
+                <div class="row text-center">
+                  <div class="col-md-12">
+                    <h2>{{this.avg}}/5 Stars</h2>
+                  </div>
+                </div>
+                <div class="row text-center">
+                  <div class="col-md-12">
+                    <nz-rate class="large" [ngModel]="avg" nzAllowHalf nzDisabled [nzCharacter]="characterIcon"></nz-rate>
+                    <ng-template #characterIcon><i nz-icon nzType="heart" nzTheme="fill"></i></ng-template>
+                  </div>
+                </div>
+              </div>
+                
+              </nz-card>
+            <br/><br/>
+              <nz-card nzTitle="Feedback">
+                  <nz-list [nzDataSource]="ratingList" [nzRenderItem]="item" [nzItemLayout]="'horizontal'">
+                      <ng-template #item let-item>
+                        <nz-comment nzAuthor="Anonymous">
+                          <nz-comment-content>
+                            <p>{{ item.feedback }}</p>
+                          </nz-comment-content>
+                        </nz-comment>
+                    </ng-template>
+                  </nz-list>
+              </nz-card>
+        </div>
+  </div>
+</div>

@@ -1,0 +1,401 @@
+<div class="dashboard-right">
+  <div class="dashboard">
+      <!-- <div class="page-title">
+          <h2>My Giveaway or swap</h2>
+      </div> -->
+
+      <div class="row" style="margin-bottom: 4px;">
+        <div class="col-6 col-xs-12">
+          <div class="page-title">
+            <h2>List of My BagiFree or Swap Item</h2>
+        </div>
+        </div>
+        <div class="col-6 col-xs-12">
+          <button nz-button nzType="default" (click)="navigateAdd()" style="float: right;">+ Post BagiFree / Swap</button>
+        </div>
+      </div>
+
+
+      <nz-tabset>
+        <nz-tab nzTitle="BagiFree">
+            <nz-table [nzScroll]="{ x: '850px' }" #products [nzPageSize]="5" [nzData]="productList" [nzLoading]="isproductLoading">
+                <thead>
+                  <tr>
+                    <th> </th>
+                    <th>Name</th>
+                    <!-- <th>Condition</th>
+                    <th>Age of Product</th>
+                    <th>Weight</th> -->
+                    <th>Brand</th>
+                    <th>Category</th>
+                    <th>Availability</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of products.data">
+                    <td><nz-avatar [nzShape]="'square'" [nzSize]="64" nzSrc="{{ data.productImage_Ref[0].productImage }}"></nz-avatar></td>
+                    <td> {{ data.productName }}</td>
+                    <!-- <td>{{ data.condition }}</td>
+                    <td>{{ data.age }}</td>
+                    <td>{{ data.productWeight }}</td> -->
+                    <td>{{ data.productBrand }}</td>
+                    <td>{{ data.category }}</td>
+                    <td>{{ isProductActive(data.isAvailable) }}</td>
+                    <td>
+                      <button nz-button nzType="primary" (click)="showModal(data)"><i nz-icon nzType="edit" style="margin-bottom: 5px" ></i></button>
+                      <nz-divider nzType="vertical"></nz-divider>
+                      <button nz-button nzType="danger" (click)="showConfirm(data)"><i nz-icon nzType="delete" style="margin-bottom: 5px" ></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </nz-table>
+        </nz-tab>
+        <nz-tab nzTitle="Swap">
+            <nz-table [nzScroll]="{ x: '850px' }" #swap [nzData]="swapList" [nzPageSize]="5" [nzLoading]="isswapLoading">
+                <thead>
+                  <tr>
+                    <th> </th>
+                    <th>Name</th>
+                    <!-- <th>Condition</th>
+                    <th>Age of Product</th>
+                    <th>Weight</th> -->
+                    <th>Brand</th>
+                    <th>Category</th>
+                    <th>Active</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of swap.data">
+                      <td><nz-avatar [nzShape]="'square'" [nzSize]="64" nzSrc="{{data.swapImage_Ref[0].productImage}}"></nz-avatar></td>
+                    <td>{{ data.productName }}</td>
+                    <!-- <td>{{ data.condition }}</td>
+                    <td>{{ data.age }}</td>
+                    <td>{{ data.productWeight }}</td> -->
+                    <td>{{ data.productBrand }}</td>
+                    <td>{{ data.category }}</td>
+                    <td>{{ isProductActive(data.isAvailable) }}</td>
+                    <td>
+                      <button nz-button nzType="primary" (click)="showSwapModal(data)"><i nz-icon nzType="edit" style="margin-bottom: 5px" ></i></button>
+                      <nz-divider nzType="vertical"></nz-divider>
+                      <button nz-button nzType="danger" (click)="showSwapConfirm(data)"><i nz-icon nzType="delete" style="margin-bottom: 5px" ></i></button>
+                    </td>
+                </tbody>
+              </nz-table>  
+        </nz-tab>
+      </nz-tabset>
+  </div>
+</div>
+
+<!-- Swap Modal -->
+<nz-modal
+[(nzVisible)]="isSwapVisible"
+nzTitle="Edit Swap Product"
+(nzOnCancel)="handleSwapCancel()"
+(nzOnOk)="handleSwapOk()"
+[nzOkLoading]="isOKSwapLoading"
+[nzWidth]="700"
+[nzOkText]="this.Update"
+>
+<form
+  nz-form
+  [nzLayout]="swapForm.get('formLayout')?.value"
+  [formGroup]="swapForm"
+>
+  <nz-form-item>
+      <nz-upload
+
+        nzListType="picture-card"
+        [(nzFileList)]="swapfileList"
+        [nzShowButton]="'false'"
+        [nzShowUploadList]="showswapUploadList"
+        [nzPreview]="handleSwapPreview"
+        id="image"
+      >
+      <i nz-icon nzType="plus"></i>
+      <div class="ant-upload-text">Upload</div>
+      </nz-upload>
+      <nz-modal
+        [nzVisible]="swappreviewVisible"
+        [nzContent]="modalContent"
+        [nzFooter]="null"
+        (nzOnCancel)="swappreviewVisible = false"
+      >
+    <ng-template #modalContent>
+      <img
+        [src]="swappreviewImage"
+        [ngStyle]="{ width: '100%' }"
+      />
+    </ng-template>
+  </nz-modal>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Product Name</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please input your Product Name!">
+      <input nz-input formControlName="sName" placeholder="Product Name" />
+    </nz-form-control>
+  </nz-form-item>
+
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Product Brand</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please input your Product Brand!">
+      <input nz-input formControlName="sBrand" placeholder="Product Brand" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Preferred Item</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please input your Preferred Item!">
+      <input nz-input formControlName="sItem" placeholder="Preferred Item" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Product Description</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please input your Product Description">
+      <textarea
+        nz-input
+        placeholder="Product Description"
+        [nzAutosize]="{ minRows: 6, maxRows: 6 }"
+        formControlName="sDescription"
+      ></textarea>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+      <nz-form-label [nzSpan]="6">Product Weight (KG)</nz-form-label>
+      <nz-form-control [nzSpan]="14" nzErrorTip="Please input your Product Weight (KG)!">
+        <nz-input-group nzSearch [nzAddOnAfter]="calc">
+            <input nz-input formControlName="sWeight" placeholder="Product Weight" />
+        </nz-input-group>
+        <ng-template #calc>
+            <button nz-button nzType="primary" nzSearch
+            onclick="window.open('https://easyparcel.com/my/en/calculator', '_blank', 'directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,resizable=0,width=500, height=650')"
+            ><i nz-icon nzType="calculator"></i></button>
+          </ng-template> 
+      </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+      <nz-form-label [nzSpan]="6">Estimated Value (RM)</nz-form-label>
+      <nz-form-control [nzSpan]="14" nzErrorTip="Please input your Product Estimated Value (RM)!">
+          <nz-select nzAllowClear nzPlaceHolder="Choose" formControlName="estVal" id="estVal">
+              <nz-option nzValue="< 500" nzLabel="Less Than RM 500"></nz-option>
+              <nz-option nzValue="501 - 1000" nzLabel="RM 501 - 1000"></nz-option>
+              <nz-option nzValue="1001 - 1500" nzLabel="RM 1001 - 1500"></nz-option>
+              <nz-option nzValue="1501 - 2000" nzLabel="RM 1501 - 2000"></nz-option>
+              <nz-option nzValue="> 2001" nzLabel="More Than RM 2000"></nz-option>
+          </nz-select>
+      </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6"> Swap Location </nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please input your Swap Location!">
+        <nz-select nzAllowClear nzPlaceHolder="Choose" formControlName="address" id="location">
+          <nz-option *ngFor="let data of address" [nzValue]="data.id" [nzLabel]="data.finalstring"></nz-option>
+        </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Product Condition</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please select your Product Condition!">
+      <nz-select style="width: 240px;" nzPlaceHolder="Choose" formControlName="sCondition">
+        <nz-option *ngFor="let cond of pCondition" 
+        [nzValue]="cond.productConditionID" 
+        [nzLabel]="cond.productConditionTitle"
+        >
+        </nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Product Age</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please select your Product Age!">
+      <nz-select style="width: 240px;" nzPlaceHolder="Choose" formControlName="sAge">
+        <nz-option *ngFor="let age of pAge" 
+        [nzValue]="age.productAge_ID" 
+        [nzLabel]="age.productAgeTitle"
+        >
+        </nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Product Category</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please select your Product Category!">
+      <nz-select nzPlaceHolder="Choose" formControlName="sCategory">
+        <nz-option *ngFor="let cat of pCategory" 
+        [nzValue]="cat.categoryID" 
+        [nzLabel]="cat.categoryTitle"
+        >
+        </nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Availability</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please select your Product Availability!">
+      <nz-select style="width: 240px;" nzPlaceHolder="Choose" formControlName="isSwapAvailable">
+        <nz-option [nzValue]="'true'" [nzLabel]="'Available'"></nz-option>
+        <nz-option [nzValue]="'false'" [nzLabel]="'Not Available'"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+</nz-modal>
+
+<!-- Products Modal -->
+<nz-modal
+[(nzVisible)]="isVisible"
+nzTitle="Edit Product"
+(nzOnCancel)="handleCancel()"
+(nzOnOk)="handleOk()"
+[nzOkLoading]="isOkLoading"
+[nzWidth]="700"
+[nzOkText]="this.Update"
+>
+<form
+  nz-form
+  [nzLayout]="validateForm.get('formLayout')?.value"
+  [formGroup]="validateForm"
+>
+<nz-form-item>
+  <nz-upload
+  *ngIf="isVisible"
+    nzListType="picture-card"
+    [(nzFileList)]="fileList"
+    [nzShowButton]="'false'"
+    [nzShowUploadList]="showUploadList"
+    [nzPreview]="handlePreview"
+    id="image"
+  >
+  <i nz-icon nzType="plus"></i>
+  <div class="ant-upload-text">Upload</div>
+  </nz-upload>
+  <nz-modal
+    [nzVisible]="previewVisible"
+    [nzContent]="modalContent"
+    [nzFooter]="null"
+    (nzOnCancel)="previewVisible = false"
+  >
+<ng-template #modalContent>
+  <img
+    [src]="previewImage"
+    [ngStyle]="{ width: '100%' }"
+  />
+</ng-template>
+</nz-modal>
+<nz-upload *ngIf="isVisible" nzType="drag" [nzMultiple]="true" [nzLimit]="4" [(nzFileList)]="fileList" >
+  <p class="ant-upload-drag-icon"> <i nz-icon nzType="inbox"></i></p>
+  <p class="ant-upload-text">Click or drag file to this area to upload</p>
+  <p class="ant-upload-hint"> Support for a single or bulk upload. The picture must be lower than 7MB and file type is jpg/png.</p>
+</nz-upload>
+</nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Product Name</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please input your Product Name!">
+      <input nz-input formControlName="pName" placeholder="Product Name" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Product Brand</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please input your Product Brand!">
+      <input nz-input formControlName="pBrand" placeholder="Product Brand" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Product Description</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please input your Product Description!">
+      <textarea
+        nz-input
+        placeholder="Product Description"
+        [nzAutosize]="{ minRows: 6, maxRows: 6 }"
+        formControlName="pDescription"
+      ></textarea>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Product Weight (KG)</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please input your Product Weight (KG)!">
+      <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input nz-input formControlName="pWeight" placeholder="Product Weight"  />
+      </nz-input-group>
+      <ng-template #suffixIconButton>
+        <button nz-button nzType="primary" nzSearch
+        onclick="window.open('https://easyparcel.com/my/en/calculator', '_blank', 'directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,resizable=0,width=500, height=650')"
+        ><i nz-icon nzType="calculator"></i></button>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6"> BagiFree Location </nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please input your Product Location!">
+        <nz-select nzAllowClear nzPlaceHolder="Choose" formControlName="address" id="location">
+            <nz-option *ngFor="let data of address" [nzValue]="data.id" [nzLabel]="data.finalstring"></nz-option>
+        </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Product Condition</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please select your Product Condition!">
+      <nz-select style="width: 240px;" nzPlaceHolder="Choose" formControlName="pCondition">
+        <nz-option *ngFor="let cond of pCondition" 
+        [nzValue]="cond.productConditionID" 
+        [nzLabel]="cond.productConditionTitle"
+        >
+        </nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Product Age</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please select your Product Size!">
+      <nz-select style="width: 240px;" nzPlaceHolder="Choose" formControlName="pAge">
+        <nz-option *ngFor="let age of pAge" 
+        [nzValue]="age.productAge_ID" 
+        [nzLabel]="age.productAgeTitle"
+        >
+        </nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Product Category</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please select your Product Category!">
+      <nz-select nzPlaceHolder="Choose" formControlName="pCategory">
+        <nz-option *ngFor="let cat of pCategory" 
+        [nzValue]="cat.categoryID" 
+        [nzLabel]="cat.categoryTitle"
+        >
+        </nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Availability</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please select your Product Availability!">
+      <nz-select style="width: 120px;" nzPlaceHolder="Choose" formControlName="isAvailable">
+        <nz-option [nzValue]="'true'" [nzLabel]="'Available'"></nz-option>
+        <nz-option [nzValue]="'false'" [nzLabel]="'Not Available'"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+</nz-modal>

@@ -1,0 +1,268 @@
+<div class="dashboard-right">
+  <div class="dashboard">
+      <div class="page-title">
+          <h2>List of Items Requested by Others</h2>
+      </div>
+      <nz-tabset>
+        <nz-tab nzTitle="BagiFree">
+            <nz-table [nzScroll]="{ x: '850px' }" [nzPageSize]="5" #products [nzData]="requestList" [nzLoading]="giveawayLoading">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>BagiFree</th>
+                    <th>Location of BagiFree</th>
+                    <th>Status</th>
+                    <th>Details</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of products.data">
+                    <td><nz-avatar [nzShape]="'square'" [nzSize]="64" [nzSrc]="data.productImage_Ref[0].productImage"></nz-avatar></td>
+                    <td>{{ data.productName }}</td>
+                    <td>{{ data.address.city + ', ' +  data.address.state + ', ' + data.address.country }}</td>
+                    <td>
+                      <div *ngIf="data.approvedID == 0">
+                        <nz-tag [nzColor]="'red'">PENDING APPROVAL</nz-tag>
+                      </div>
+                      <div *ngIf="data.approvedID > 0">
+                        <nz-tag *ngIf="data.isApproved === true && data.isSelfPickup === null" [nzColor]="'gold'">PENDING DECISION</nz-tag>
+                        <nz-tag *ngIf="data.isApproved === true && data.isSelfPickup === true && data.isDatePicked === false" [nzColor]="'gold'">PENDING SELF-PICKUP</nz-tag>
+                        <nz-tag *ngIf="data.isApproved === true && data.isSelfPickup === true && data.isDatePicked === true" [nzColor]="'green'">BAGIFREE DONE</nz-tag>
+                        <!-- <nz-tag *ngIf="data.isApproved === true && data.isSelfPickup === false" [nzColor]="'gold'">PENDING DELIVERY</nz-tag> -->
+                        <nz-tag *ngIf="data.isApproved === true && data.isCompleted === true" [nzColor]="'green'">COMPLETED</nz-tag>
+                      </div>
+                    <td><button (click)="bagifreeShow(data)" nz-button>Request List</button></td>
+                  </tr>
+                </tbody>
+              </nz-table>  
+        </nz-tab>
+        <nz-tab nzTitle="Swap">
+          <nz-table [nzScroll]="{ x: '850px' }" [nzPageSize]="5" #swap [nzData]="requestSwapList" [nzLoading]="swapLoading">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Swap Product</th>
+                <th>Location of Swap</th>
+                <th>Status</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of swap.data">
+                <td><nz-avatar [nzShape]="'square'" [nzSize]="64" [nzSrc]="data.swapImage_Ref[0].productImage"></nz-avatar></td>
+                <td>{{ data.productName }}</td>
+                <td>{{  data.address.city + ', ' + data.address.state + ', ' + data.address.country }}</td>
+                <td>
+                  <div *ngIf="data.approvedID == 0">
+                    <nz-tag [nzColor]="'red'">PENDING APPROVAL</nz-tag>
+                  </div>
+                  <div *ngIf="data.approvedID > 0">
+                    <nz-tag *ngIf="data.isApproved === true && data.isSelfPickup === null" [nzColor]="'gold'">PENDING DECISION</nz-tag>
+                    <nz-tag *ngIf="data.isApproved === true && data.isSelfPickup === true && data.isDatePicked === false" [nzColor]="'gold'">PENDING SELF-PICKUP</nz-tag>
+                    <nz-tag *ngIf="data.isApproved === true && data.isSelfPickup === true && data.isDatePicked === true" [nzColor]="'green'">SWAP DONE</nz-tag>
+                    <nz-tag *ngIf="data.isApproved === true && data.isCompleted === true" [nzColor]="'green'">COMPLETED</nz-tag>
+                  </div>
+                </td>
+                <td><button (click)="swapShow(data)" nz-button>Request List</button></td> 
+              </tr>
+            </tbody>
+          </nz-table>  
+        </nz-tab>
+      </nz-tabset>
+  </div>
+</div>
+
+<!-- MODAL BAGIFREE -->
+<nz-modal nzWidth="800" [(nzVisible)]="isVisible" nzTitle="Request List" (nzOnCancel)="bagifreeCancel()" (nzOnOk)="bagifreeOK()">
+  <div class="well text-center">
+    <div class="row">
+      <div class="col-md-12">
+        <span *ngFor="let data of modalData">
+          <img src="{{data.productImage}}" class="rounded" style="width:150; height:150px;" alt="..."> &nbsp;
+        </span>
+      </div>
+    </div>
+  </div>
+  <br/>
+  <nz-descriptions [nzSize]="'small'" nzTitle="BagiFree Information" nzBordered>
+    <nz-descriptions-item [nzSpan]="4" nzTitle="BagiFree Name">{{ this.productDetailsForm.controls['productname'].value }}</nz-descriptions-item>
+    <nz-descriptions-item [nzSpan]="4" nzTitle="BagiFree Brand">{{ this.productDetailsForm.controls['brand'].value }}</nz-descriptions-item>
+    <nz-descriptions-item [nzSpan]="4" nzTitle="BagiFree Condition">{{ this.productDetailsForm.controls['condition'].value }}</nz-descriptions-item>
+    <nz-descriptions-item [nzSpan]="4" nzTitle="BagiFree Category">{{ this.productDetailsForm.controls['category'].value }}</nz-descriptions-item>
+    <nz-descriptions-item [nzSpan]="4" nzTitle="BagiFree Age">{{ this.productDetailsForm.controls['age'].value }}</nz-descriptions-item>
+    <nz-descriptions-item [nzSpan]="4" nzTitle="BagiFree Weight">{{ this.productDetailsForm.controls['brand'].value }}</nz-descriptions-item>
+    <nz-descriptions-item [nzSpan]="4" nzTitle="BagiFree Description">{{ this.productDetailsForm.controls['description'].value }}</nz-descriptions-item>
+    <nz-descriptions-item [nzSpan]="4" nzTitle="BagiFree Address">{{ this.productDetailsForm.controls['address'].value }}</nz-descriptions-item>
+  </nz-descriptions>
+
+  <hr>
+  <h5> Status: 
+    <nz-tag *ngIf="isApproved === null" [nzColor]="'red'">PENDING APPROVAL</nz-tag>
+    <nz-tag *ngIf="isApproved === true && isSelfPickup === null" [nzColor]="'gold'">PENDING DECISION</nz-tag>
+    <nz-tag *ngIf="isApproved === true && isSelfPickup === true && isDatePicked === false" [nzColor]="'gold'">PENDING SELF-PICKUP</nz-tag>
+    <nz-tag *ngIf="isApproved === true && isSelfPickup === true && isDatePicked === true" [nzColor]="'green'">BAGIFREE DONE</nz-tag>
+    <!-- <nz-tag *ngIf="isApproved === true && isSelfPickup === false" [nzColor]="'gold'">PENDING DELIVERY</nz-tag> -->
+    <nz-tag *ngIf="isApproved === true && isCompleted === true" [nzColor]="'green'">COMPLETED</nz-tag>
+  </h5>
+  <br/>
+  <nz-table [nzLoading]="giveawayLoading" #basicTable [nzData]="bagiFreeRequest">
+    <thead>
+      <tr>
+        <th>Requestor</th>
+        <th>Mobile Number</th>
+        <th>Email</th>
+        <th>Proposed Pickup Date</th>
+        <th>Remarks</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of bagiFreeRequest">
+        <td>{{ data.username }}</td>
+        <td><a href="tel:+60{{ data.mobile }}">0{{ data.mobile }}</a></td>
+        <td><a href="mailto:{{ data.email }}?Subject=BagiFree%20Request" target="_top">{{ data.email }}</a></td>
+        <td>{{ data.pickupDate || '-'}}</td>
+      <td> {{ data.remarks }}</td>
+        <td>
+          <div *ngIf="approvedID == 0">
+            <button (click)="approveGiveaway(data.id, this.productDetailsForm.controls['productid'].value, data.requestid)" nz-button nzType="primary">Approve</button>
+          </div>
+          <div *ngIf="approvedID > 0 && data.requestid === approvedID">
+            <nz-tag *ngIf="isApproved === true && isSelfPickup === null" [nzColor]="'gold'">PENDING DECISION</nz-tag>
+            <nz-tag *ngIf="isApproved === true && isSelfPickup === true && isDatePicked === false" [nzColor]="'gold'">PENDING SELF-PICKUP</nz-tag>
+            <nz-tag *ngIf="isApproved === true && isSelfPickup === true && isDatePicked === true" [nzColor]="'green'">BAGIFREE DONE</nz-tag>
+            <!-- <nz-tag *ngIf="isApproved === true && isSelfPickup === false" [nzColor]="'gold'">PENDING DELIVERY</nz-tag> -->
+            <nz-tag *ngIf="isApproved === true && isCompleted === true" [nzColor]="'green'">COMPLETED</nz-tag>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</nz-modal>
+
+
+
+<!-- MODAL SWAP -->
+<nz-modal nzWidth="1200" [(nzVisible)]="isSwapVisible" nzTitle="Request List" (nzOnCancel)="swapCancel()" (nzOnOk)="swapOK()">
+  <nz-tabset [(nzSelectedIndex)]="tabIndex">
+    <nz-tab nzTitle="Details">
+      <div class="well text-center">
+        <div class="row">
+          <div class="col-md-12">
+            <span *ngFor="let data of swapmodalData">
+              <img src="{{data.productImage}}" class="rounded" style="width:150px; height:150px;" alt="..."> &nbsp;
+            </span>
+          </div>
+        </div>
+      </div>
+      <br/>
+      <nz-descriptions nzTitle="Swap Information" [nzSize]="'small'" nzBordered>
+        <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Item">{{ this.swapDetailsForm.controls['productname'].value }}</nz-descriptions-item>
+        <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Brand">{{ this.swapDetailsForm.controls['brand'].value }}</nz-descriptions-item>
+        <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Condition">{{ this.swapDetailsForm.controls['condition'].value }}</nz-descriptions-item>
+        <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Category">{{ this.swapDetailsForm.controls['category'].value }}</nz-descriptions-item>
+        <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Age">{{ this.swapDetailsForm.controls['age'].value }}</nz-descriptions-item>
+        <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Estimated Value">{{ this.swapDetailsForm.controls['estVal'].value }}</nz-descriptions-item>
+        <nz-descriptions-item [nzSpan]="4" nzTitle="Preferred Item">{{ this.swapDetailsForm.controls['preferredItem'].value }}</nz-descriptions-item>
+        <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Description">{{ this.swapDetailsForm.controls['description'].value }}</nz-descriptions-item>
+        <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Address">{{ this.swapDetailsForm.controls['address'].value }} </nz-descriptions-item>
+      </nz-descriptions>
+    
+    
+      <hr>
+      <h5> Status: 
+        <nz-tag *ngIf="isSwapApproved === null" [nzColor]="'red'">PENDING APPROVAL</nz-tag>
+        <nz-tag *ngIf="isSwapApproved === true && isSwapSelfPickup === null" [nzColor]="'gold'">PENDING DECISION</nz-tag>
+        <nz-tag *ngIf="isSwapApproved === true && isSwapSelfPickup === true && isSwapDatePicked === false" [nzColor]="'gold'">PENDING SELF-PICKUP</nz-tag>
+        <nz-tag *ngIf="isSwapApproved === true && isSwapSelfPickup === true && isSwapDatePicked === true" [nzColor]="'green'">SWAP DONE</nz-tag>
+        <!-- <nz-tag *ngIf="isSwapApproved === true && isSwapSelfPickup === false" [nzColor]="'gold'">PENDING DELIVERY</nz-tag> -->
+        <nz-tag *ngIf="isSwapApproved === true && isSwapCompleted === true" [nzColor]="'green'">COMPLETED</nz-tag>
+      </h5>
+      <br/>
+      <nz-table [nzLoading]="giveawayLoading" #basicTable [nzData]="swapRequest">
+        <thead>
+          <tr>
+            <th>Requestor</th>
+            <th>Mobile Number</th>
+            <th>Email</th>
+            <th>Swap Offer</th>
+            <th>Proposed Pickup Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of swapRequest">
+            <td>{{ data.username }}</td>
+            <td><a href="tel:+60{{ data.mobile }}">0{{ data.mobile }}</a></td>
+            <td><a href="mailto:{{ data.email }}?Subject=BagiFree%20Request" target="_top">{{ data.email }}</a></td>
+            <td>
+              <!-- <button (click)="displaySwapInfo(this.swapDetailsForm.controls['productid'].value, data)" nz-button nz-popover nzPopoverPlacement="top" nzPopoverTitle="Swap Item Details" [nzPopoverContent]="contentTemplate" nzPopoverTrigger="click">  -->
+                <button (click)="displaySwapInfo(this.swapDetailsForm.controls['productid'].value, data)" nz-button> 
+               Swap Products
+             </button>
+           </td>
+            <td>{{data.pickupDate || '-'}}</td>
+            <td>
+              <div *ngIf="Swap_approvedID == 0">
+                <button (click)="swapApproveGiveaway(data.id, this.swapDetailsForm.controls['productid'].value, data.requestid)" nz-button nzType="primary">Approve</button>
+              </div>
+              <div *ngIf="Swap_approvedID > 0 && data.requestid === Swap_approvedID">
+                <nz-tag *ngIf="isSwapApproved === true && isSwapSelfPickup === null" [nzColor]="'gold'">PENDING DECISION</nz-tag>
+                <nz-tag *ngIf="isSwapApproved === true && isSwapSelfPickup === true && isSwapDatePicked === false" [nzColor]="'gold'">PENDING SELF-PICKUP</nz-tag>
+                <!-- <nz-tag *ngIf="isSwapApproved === true && isSwapSelfPickup === false" [nzColor]="'gold'">PENDING DELIVERY</nz-tag> -->
+                <nz-tag *ngIf="isSwapApproved === true && isSwapSelfPickup === true && isSwapDatePicked === true" [nzColor]="'green'">SWAP DONE</nz-tag>
+                <nz-tag *ngIf="isSwapApproved === true && isSwapCompleted === true" [nzColor]="'green'">COMPLETED</nz-tag>
+              </div>
+            </td>      
+          </tr>
+        </tbody>
+      </nz-table>
+    </nz-tab>
+    <nz-tab [nzDisabled]="'true'" nzTitle="Swap Products Detail">
+      <button (click)="backTab()" nz-button nzType="primary"><i nz-icon nzType="left"></i> Go back</button>
+      <div class="well text-center">
+        <div class="row">
+          <div *ngIf="offerObj != null" class="col-md-12">
+            <span *ngFor="let data of offerObj.swapImage_Ref">
+              <img src="{{data.productImage != null ? data.productImage : null}}" class="rounded" style="width:150px; height:150px;" alt="..."> &nbsp;
+            </span>
+          </div>
+        </div>
+      </div>
+      <br/><br/>
+      <nz-descriptions *ngIf="offerObj != null" [nzSize]="'small'" nzBordered>
+        <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Item">{{offerObj.productName}}</nz-descriptions-item>
+        <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Brand">{{offerObj.productBrand}}</nz-descriptions-item>
+        <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Condition">{{offerObj.condition}}</nz-descriptions-item>
+        <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Category">{{offerObj.category}}</nz-descriptions-item>
+        <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Age">{{offerObj.age}}</nz-descriptions-item>
+        <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Estimated Value (RM)">RM {{offerObj.estVal}}</nz-descriptions-item>
+        <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Item">{{offerObj.preferredItem}}</nz-descriptions-item>
+        <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Description">{{offerObj.productDescription}}</nz-descriptions-item>
+        <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Address">{{ offerObj.address.city + ', ' + offerObj.address.state}}<br/>{{offerObj.address.country}}</nz-descriptions-item>
+    </nz-descriptions>
+    </nz-tab>
+  </nz-tabset>
+</nz-modal>
+
+
+<!-- Templating -->
+<ng-template #contentTemplate>
+  <div class="well text-center">
+    <div class="row">
+      <div class="col-md-12">
+        <span *ngFor="let data of offerObj.swapImage_Ref">
+          <img src="{{data.productImage}}" class="rounded" style="width:60px; height:60px;" alt="..."> &nbsp;
+        </span>
+      </div>
+    </div>
+  </div>
+  <br/><br/>
+  <nz-descriptions [nzSize]="'small'" nzBordered>
+    <nz-descriptions-item [nzSpan]="4" nzTitle="Swap Item">{{offerObj.productName}}</nz-descriptions-item>
+    <nz-descriptions-item [nzSpan]="4" nzTitle="Estimated Value (RM)">RM {{offerObj.estVal}}</nz-descriptions-item>
+    <nz-descriptions-item [nzSpan]="4" nzTitle="Product Condition">Brand New</nz-descriptions-item>
+    <nz-descriptions-item [nzSpan]="4" nzTitle="Product Description">{{offerObj.productDescription}}</nz-descriptions-item>
+    <nz-descriptions-item [nzSpan]="4" nzTitle="Product Address">{{ offerObj.address.city + ', ' + offerObj.address.state}}<br/>{{offerObj.address.country}}</nz-descriptions-item>
+</nz-descriptions>
+</ng-template>

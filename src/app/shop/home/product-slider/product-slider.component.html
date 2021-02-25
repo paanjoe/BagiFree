@@ -1,0 +1,41 @@
+<!-- Paragraph-->
+<!-- <div class="title1">
+  <h2 style="padding:20px;" class="title-inner1">new bagifree</h2>
+</div> -->
+<br/>
+<div class="container">
+  <div class="row">
+    <div class="col box">
+        <div class="text-center">
+          <h2 style="font-weight: 400; font-family: 'Averia Libre', cursive;padding-top: 12px;">new bagifree</h2> 
+        </div>
+    </div>
+  </div>
+</div>
+<br/>
+<!-- Paragraph-->
+<!-- Product slider end -->
+<section *ngIf="boolDisplay === false" class="section-b-space p-t-0">
+  <div class="container">
+      <nz-empty *ngIf="!products"></nz-empty>
+    <div class="row" style="display: flex; flex-wrap: wrap">
+      <div class="col-md-2" *ngFor="let product of products | slice: 0:12;">
+              <app-product [products]="product"></app-product>
+             <br/>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <a [routerLink]="['/search/bagifree']" class="btn btn-solid">View More</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<nz-result *ngIf="boolDisplay === true" nzStatus="warning" nzTitle="Currently there are no BagiFree products available!">
+  <div nz-result-extra>
+    <button nz-button nzType="primary" (click)="postProduct()">ADD BAGIFREE!</button>
+  </div>
+</nz-result>
+
+<!-- Product slider end -->

@@ -1,0 +1,41 @@
+
+<app-homearea></app-homearea>
+<app-banner-info></app-banner-info>
+<div *ngIf="statusLoadBagiFree === true" class="text-center">
+    <br/><br/>
+    <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+    <br/><br/>
+</div>
+<app-product-slider *ngIf="statusLoadBagiFree === false" [products]="products"></app-product-slider>
+<div class="container">
+        <div class="row">
+            <div class="col-md-1"><p></p></div>
+            <div class="col-md-10">
+                <div class="text-center">
+                    <a href="https://www.dokumaya.com/" target="_blank"><img class="img-fluid" src="../../../assets/images/ads/dokumaya.jpg"/></a>
+                </div>
+            </div>
+            <div class="col-md-1"><p></p></div>
+        </div>
+</div>
+<br/>
+<div *ngIf="statusLoadSwap === true" class="text-center">
+    <br/><br/>
+    <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+    <br/><br/>
+</div>
+<app-product-tab *ngIf="statusLoadSwap === false" [swaps]="swaps"></app-product-tab>
+<div class="container">
+        <div class="row">
+            <div class="col-md-1"><p></p></div>
+            <div class="col-md-10">
+                <div class="text-center">
+                    <a href="https://www.dokumaya.com/" target="_blank"><img class="img-fluid" src="../../../assets/images/ads/dokumaya_2.jpg"/></a>
+                </div>
+            </div>
+            <div class="col-md-1"><p></p></div>
+        </div>
+</div>
+<br/>
+<!-- <app-newsletter></app-newsletter> -->
+

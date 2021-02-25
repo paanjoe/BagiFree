@@ -1,0 +1,21 @@
+image: node:latest
+
+cache: 
+  paths:
+    - node_modules/
+
+stages:
+  - deploy-dev
+
+deploy-dev: 
+   stage: deploy-dev
+   environment: 
+        name: dev
+   script: 
+       - rm -rf node_modules
+       - npm i
+       - npm run build
+       - npm run deploy
+
+   only: 
+       - master

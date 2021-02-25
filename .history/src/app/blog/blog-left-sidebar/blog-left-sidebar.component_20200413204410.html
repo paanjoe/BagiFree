@@ -1,0 +1,140 @@
+<!-- breadcrumb start -->
+<div class="breadcrumb-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="page-title">
+                    <h2>Find BagiFree</h2>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <nav aria-label="breadcrumb" class="theme-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="'/home/one'">Home</a></li>
+                        <li class="breadcrumb-item active">Find BagiFree</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb End -->
+<section class="collection section-b-space">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-1">
+                        
+                </div>
+                <div class="col-md-10">
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input formControlName="searchInput" type="text" nz-input />
+                            <button (click)="search()" nz-button nzType="primary" nzSearch><i nz-icon nzType="search"></i> Search</button>      
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <nz-select formControlName="searchLocation" nzPlaceHolder="Location">
+                                <nz-option nzValue="" nzLabel="All Location" select></nz-option>
+                                <nz-option nzValue="Johor" nzLabel="Johor"></nz-option>
+                                <nz-option nzValue="Kedah" nzLabel="Kedah"></nz-option>
+                                <nz-option nzValue="Kelantan" nzLabel="Kelantan"></nz-option>
+                                <nz-option nzValue="Melaka" nzLabel="Melaka"></nz-option>
+                                <nz-option nzValue="Negeri Sembila" nzLabel="Negeri Sembilan"></nz-option>
+                                <nz-option nzValue="Pahang" nzLabel="Pahang"></nz-option>
+                                <nz-option nzValue="Penang" nzLabel="Penang"></nz-option>
+                                <nz-option nzValue="Perak" nzLabel="Perak"></nz-option>
+                                <nz-option nzValue="Perlis" nzLabel="Perlis"></nz-option>
+                                <nz-option nzValue="Selangor" nzLabel="Selangor"></nz-option>
+                                <nz-option nzValue="Sabah" nzLabel="Sabah"></nz-option>
+                                <nz-option nzValue="Sarawak" nzLabel="Sarawak"></nz-option>
+                                <nz-option nzValue="Terengganu" nzLabel="Terengganu"></nz-option>
+                                <nz-option nzValue="Kuala Lumpur" nzLabel="Kuala Lumpur"></nz-option>
+                        </nz-select>
+                        </div>
+                        <div class="col-md-6">
+                            <nz-select formControlName="searchType" nzPlaceHolder="Categories">
+                                <nz-option nzValue="" nzLabel="All Categories" select></nz-option>
+                                <nz-option nzValue="Women's Clothing" nzLabel="Women's Clothing"></nz-option>
+                                <nz-option nzValue="Men's Clothing" nzLabel="Men's Clothing"></nz-option>
+                                <nz-option nzValue="Cameras & Drones" nzLabel="Cameras & Drones"></nz-option>
+                                <nz-option nzValue="Health & Beauty" nzLabel="Health & Beauty"></nz-option>
+                                <nz-option nzValue="Mobile & Gadgets" nzLabel="Mobile & Gadgets"></nz-option>
+                                <nz-option nzValue="Baby & Toys" nzLabel="Baby & Toys"></nz-option>
+                                <nz-option nzValue="Watches" nzLabel="Watches"></nz-option>
+                                <nz-option nzValue="Home & Living" nzLabel="Home & Living"></nz-option>
+                                <nz-option nzValue="Home Appliances" nzLabel="Home Appliances"></nz-option>
+                                <nz-option nzValue="Women's Bags" nzLabel="Women's Bags"></nz-option>
+                                <nz-option nzValue="Men's Bags & Wallet" nzLabel="Men's Bags & Wallet"></nz-option>
+                                <nz-option nzValue="Muslim Fashion" nzLabel="Muslim Fashion"></nz-option>
+                                <nz-option nzValue="Computer Accessories" nzLabel="Computer Accessories"></nz-option>
+                                <nz-option nzValue="Groceries & Pet" nzLabel="Groceries & Pets"></nz-option>
+                                <nz-option nzValue="Sports & Outdoor" nzLabel="Sports & Outdoor"></nz-option>
+                                <nz-option nzValue="Women's Shoes" nzLabel="Women's Shoes"></nz-option>
+                                <nz-option nzValue="Men's Shoes" nzLabel="Men's Shoes"></nz-option>
+                                <nz-option nzValue="Fashion Accessories" nzLabel="Fashion Accessories"></nz-option>
+                                <nz-option nzValue="Books & Magazines" nzLabel="Books & Magazines"></nz-option>
+                                <nz-option nzValue="Automotive" nzLabel="Automotive"></nz-option>
+                                <nz-option nzValue="Ticket & Vouchers" nzLabel="Ticket & Vouchers"></nz-option>
+                                <nz-option nzValue="Travel & Luggage" nzLabel="Travel & Luggage"></nz-option>
+                                <nz-option nzValue="Others" nzLabel="Others"></nz-option>
+                        </nz-select>
+                        </div>
+                    </div>
+                        
+                                
+                                
+                    <!-- <form nz-form [formGroup]="searchForm"></form>         
+                                
+                    </form> -->
+                </div>
+                <div class="col-md-1">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1">
+                        <!-- <div class="text-center">
+                            <a routerLink="/search/bagifree"><img class="img-fluid" src="../../../assets/images/ads/3.jpeg"/></a>
+                        </div> -->
+                </div>
+                <div class="col-md-10">
+
+
+                       <div *ngIf="statusLoad === true" class="text-center">
+                           <br/><br/>
+                        <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+                       </div>
+                        <div *ngIf="statusLoad === false" style="background: #fff;padding:30px;">
+                            <div class="card-deck">
+                              <div class="card" *ngFor="let data of pList | filter: searchText | filter: searchLocation | filter: searchCategory" style="max-width: 14rem;">
+                                <a [routerLink]="['/home/bagifree/product', data.id]">
+                                      <img class="card-img-top" src="{{data.productImage_Ref[0].productImage}}" alt="Card image cap">
+                                      <div class="card-body">
+                                        <h5 class="card-title">{{data.productName}}</h5>
+                                        <p class="card-text">{{data.productDescription | slice: 0:50}} ...</p>
+                                      </div>
+                                      <div class="card-footer text-center">
+                                        <small> 
+                                            {{ data.category }}
+                                        </small>
+                                        <br/>
+                                        <small style="color: orange;">
+                                            <i class="fa fa-map-marker" aria-hidden="true"></i> {{data.address.city + ', ' + data.address.state }}
+                                        </small>
+                                      </div>
+                                </a>
+                                <br/>
+                              </div>
+                              </div>
+                        </div>
+                </div>
+                <div class="col-md-1">
+                        <!-- <div class="text-center">
+                                <a routerLink="/search/bagifree"><img class="img-fluid" src="../../../assets/images/ads/3.jpeg"/></a>
+                        </div> -->
+                </div>
+            </div>
+        </div>
+</section>

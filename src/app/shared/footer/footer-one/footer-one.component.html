@@ -1,0 +1,70 @@
+<!--footer section -->
+<footer class="footer-light">
+	<!-- <div class="light-layout">
+		<div class="container">
+			<section class="small-section border-section border-top-0">
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="subscribe">
+							<div>
+								<h4>KNOW IT ALL FIRST!</h4>
+								<p>Never Miss Anything From BagiFree By Signing Up To Our Newsletter. </p>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<form nz-form [formGroup]="subscriber" class="form-header" >
+								<nz-input-group nzSize="large" nzCompact >
+									<input formControlName="email" type="text" class="form-control" placeholder="Enter your email" required="required">
+								</nz-input-group>
+						</form>				
+					</div>
+					<div class="col-lg-2">
+						<button (click)="addSubscriber()" class="btn btn-solid">subscribe</button>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div> -->
+	<section class="section-b-space light-layout">
+		<div class="container">
+			<div class="row footer-theme partition-f">
+				<div class="col-lg-6 col-md-6">
+					<div class="footer-title footer-mobile-title">
+						<h4>about</h4>
+					</div>
+					<div class="footer-contant">
+						<div class="footer-logo">
+							<img style="width: 100px;" src="assets/images/bagifree-logo.png" alt="">
+						</div>
+						<app-information></app-information>
+					</div>
+				</div>
+				<div class="col offset-xl-1">
+					<div class="sub-title">
+						 <app-categories></app-categories>
+					</div>
+				</div>
+				<!-- <div class="col">
+					<div class="sub-title">
+						<div class="footer-title">
+						    <h4>Contact Us</h4>
+						</div>
+						<div class="footer-contant">
+						    <ul>
+						        <li><i style="color:orange;" class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;Nama & Alamat Company BagiFree</li>
+						        <li><i style="color:orange;" class="fa fa-phone"></i>&nbsp;&nbsp;&nbsp;Call Us: 03 6204 0000</li>
+						        <li><i style="color:orange;" class="fa fa-envelope-o"></i>&nbsp;&nbsp;&nbsp;Email Us: <a [routerLink]="">Support@bagifree.com.my</a></li>
+						    </ul>
+						</div>
+					</div>
+				</div> -->
+			</div>
+		</div>
+	</section>
+	<div class="sub-footer">
+		<div class="container">
+			<app-copyright></app-copyright>
+		</div>
+	</div>
+</footer>

@@ -1,0 +1,41 @@
+<!-- Paragraph-->
+<!-- <div class="title1" style="background-color:orange;">
+  <h2 style="padding:20px;" class="title-inner1">new swap</h2>
+</div> -->
+<br/>
+<div class="container">
+  <div class="row">
+    <div class="col box">
+        <div class="text-center">
+          <h2 style="padding-top: 12px;font-weight: 400; font-family: 'Averia Libre', cursive;">new swap</h2>
+        </div>
+    </div>
+  </div>
+</div>
+<br/>
+<!-- Paragraph-->
+
+<!-- Product slider end -->
+<section *ngIf="boolDisplay === false" class="section-b-space p-t-0">
+  <div class="container">
+      <nz-empty *ngIf="!swaps"></nz-empty>
+    <div class="row">
+      <div class="col-md-2" *ngFor="let swap of swaps | slice:0:12;">
+             <app-swap [swaps]="swap"></app-swap>
+             <br/>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <a [routerLink]="['/blog/right-sidebar']" class="btn btn-solid">View More</a>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Product slider end -->
+
+<nz-result *ngIf="boolDisplay === true" nzStatus="info" nzTitle="Currently there are no Swap products available!">
+  <div nz-result-extra>
+    <button nz-button nzType="primary">ADD SWAP!</button>
+  </div>
+</nz-result>

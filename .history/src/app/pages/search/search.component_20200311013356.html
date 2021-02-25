@@ -1,0 +1,94 @@
+<!-- breadcrumb start -->
+<div class="breadcrumb-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="page-title">
+          <h2>search</h2>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <nav aria-label="breadcrumb" class="theme-breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="'/home/one'">Home</a></li>
+            <li class="breadcrumb-item active">search</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- breadcrumb End -->
+<!-- section start -->
+<section class="authentication-page section-b-space">
+  <div class="container">
+    <section class="search-block">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 offset-lg-3">
+            <form nz-form [formGroup]="searchForm" class="form-header">
+                 <nz-input-group nzCompact >
+                    <nz-select formControlName="searchType" style="width:30%;" nzPlaceHolder="Search Type">
+                      <nz-option [nzLabel]="'Giveaway'" [nzValue]="'1'"></nz-option>
+                      <nz-option [nzLabel]="'Swap'" [nzValue]="'2'"></nz-option>
+                    </nz-select>
+                    <input formControlName="searchInput" type="text" nz-input style="width:70%;" />       
+                  </nz-input-group> 
+            </form>
+          </div>
+        </div>
+        <br/><br/>
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3 text-center">
+                <button nzSize="large" nz-button nzType="primary" (click)="search()" nzSearch><i nz-icon nzType="search"></i> Search</button>
+            </div>
+        </div>
+      </div>
+    </section>
+    <div class="col-sm-12 text-center" *ngIf="disp == 0">
+        <img src="assets/images/empty-search.jpg" class="img-fluid mb-4">
+          <h3>Sorry! Couldn't find the stuffs you were looking For!    </h3>
+          <p>Please check if you have misspelt something or try searching with other words.</p>
+          <a [routerLink]="'/home/one'" class="btn btn-solid">continue browsing</a>
+    </div> 
+  </div>
+</section>
+
+<section *ngIf="disp == 1" class="collection section-b-space">
+    <div class="container">
+        <h4>Search Results: Giveaway</h4><br/>
+        <div class="row partition-collection section-t-space">
+            <div *ngFor="let product of pList | filter: searchText" class="col-lg-3 col-md-6">
+                <div class="collection-block">
+                    <a [routerLink]="['/home/bagifree/product', product.id]"><img  style="width:370px; height:370px; object-fit:cover;" [src]="product.productImage_Ref[0].productImage" class="img-fluid" alt=""></a>
+                    <div class="collection-content">
+                        <h4>Location: {{product.address.state + ', ' + product.address.country}}</h4>
+                        <h3>{{product.productName}}</h3>
+                        <p>{{product.productDescription}} ...</p>
+          <button class="btn btn-solid" [routerLink]="['/home/bagifree/product', product.id]" >View BagiFree</button>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section *ngIf="disp == 2" class="collection section-b-space">
+    <div class="container">
+        <h4>Search Results: Swap</h4><br/>
+        <div class="row partition-collection section-t-space">
+            <div *ngFor="let swap of sList | filter: searchText" class="col-lg-3 col-md-6">
+                <div class="collection-block">
+                    <a [routerLink]="['/home/right-sidebar/product', swap.id]"><img  style="width:370px; height:370px; object-fit:cover;" [src]="swap.swapImage_Ref[0].productImage" class="img-fluid" alt=""></a>
+                    <div class="collection-content">
+                        <h4>Location: {{swap.address.state + ', ' + swap.address.country}}</h4>
+                        <h3>{{swap.productName}}</h3>
+                        <p>{{swap.productDescription}} ...</p>
+          <button class="btn btn-solid" [routerLink]="['/home/right-sidebar/product', swap.id]" >View BagiFree</button>
+                   
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

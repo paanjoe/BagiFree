@@ -1,0 +1,116 @@
+<!-- breadcrumb start -->
+<div class="breadcrumb-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="page-title">
+                    <h2>about us</h2>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <nav aria-label="breadcrumb" class="theme-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="'/home/one'">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">About us</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb end -->
+<!-- about section start -->
+<section class="about-page  section-b-space">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="banner-section">
+                    <img  src="assets/images/about/about%20us.png" class="img-fluid" alt=""/>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                    <br/><br/>
+                    <h3 class="text-center" style="color:black;">ABOUT BAGIFREE</h3>
+                    <br/>
+                    <div class="card">
+                            <div class="card-body">
+                              <p class="card-text">
+                                    <b style="color: orange;">What’s Bagifree?</b>
+                                    <br/>   
+                                    BagiFree is a non-profit online platform for people to let go and share their pre-loved, unused stuffs for FREE and also to SWAP them on a free will basis between two or more people.
+                                    <br>
+                                    With Bagifree, giving away or swapping your preloved stuffs have never been so easy. Just post them here for others to see.
+                                    <br/>
+                                    Grow your hearts. Start BagiFree-ing or Swapping your LOVE with others.
+                                    <br/>
+                                    We all have stuffs in the house, in the office or even in the cars that were once used or loved but have been collecting dusts for quite sometimes. Some are still usable or may even look like new. But we just don’t know what to do with them. Throw them out? Please don’t!
+                                    <br/>
+                                    You know, stuffs that no more useful to some might be so very useful to others.
+                                    <br/>
+                                    And to our world we lived in, haven’t we done enough damage suffocating our world with garbage and dumps? Should we not start to reduce, re-use and re-cycle, now? 
+                                    <br/>
+                                    Why not find new love for them? Isn’t that great?
+                                    <br/>
+                                    It’s time to <b style="color:orange;">BagiFree</b> or <b style="color: orange;">Swap</b> them.
+                              </p>
+                            </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- about section end -->
+<!--Testimonial start-->
+ <section id="team" class="team">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 style="color: black;">BAGIFREE BACKBONE</h3><br/><br/>
+                    <div class="team-4">
+                        <ngx-slick-carousel class="team-4" #slickModal="slick-carousel" [config]="teamSliderConfig">
+                        <div ngxSlickItem *ngFor="let tm of team">
+                            <img [src]="tm.image" class="img-fluid" alt=""/>
+                            <h4>{{tm.name}}</h4>
+                            <h6>{{tm.designation}}</h6>
+                        </div>
+                    </ngx-slick-carousel>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> 
+<!-- <section class="testimonial small-section">
+    <div class="container">
+            <div class="row">
+                    <div class="col-md-12 text-center">
+                            <h3 style="color:black;">TESTIMONIALS</h3>
+                            <br/><br/>
+                    </div>
+                </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <ngx-slick-carousel class="slide-2 testimonial-slider no-arrow" #slickModal="slick-carousel" [config]="testimonialSliderConfig">
+                    <div  ngxSlickItem *ngFor="let ts of testimonial">
+                        <div class="media">
+                            <div class="text-center">
+                                <img [src]="ts.image" alt="#">
+                                <h5>{{ts.name}}</h5>
+                                <h6>{{ts.designation}}</h6>
+                            </div>
+                            <div class="media-body">
+                                <p>{{ts.description}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-slick-carousel>
+            </div>
+        </div>
+    </div>
+</section> -->
+<!--Testimonial ends-->
+<!--Team start-->
+
+<!--Team ends-->
+<!-- service section -->
+
+<!-- service section end -->

@@ -1,0 +1,41 @@
+@import '../../../../vendor/pace/pace-orange-min.css';
+@import '../../../../assets/scss/color1';
+
+// #header {
+//     position: absolute;
+//     left: 0;
+//     top: 0;
+//     width: 100%;
+//     z-index: 99;
+//     background: transparent;
+//      padding: 15px 0;
+//     -webkit-transition: 0.5s;
+//     transition: 0.5s;
+// }
+
+.test {
+    position: absolute;
+    left: 0;
+    top: -15px;
+    width: 100%;
+    z-index: 99;
+    background: transparent;
+     padding: 15px 0;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+}
+
+// #header.sticky {
+//     position: fixed;
+//     width: 100%;
+//     z-index: 9999;
+//     background: -webkit-gradient( linear, left top, right top, from(#20007e), to(#e61eb6));
+//     background: linear-gradient( 90deg, #20007e 0%, #e61eb6 100%);
+//     padding: 20px 0;
+//     -webkit-box-shadow: 0 0 10px #111;
+//     box-shadow: 0 0 10px #111;
+// }
+
+// #header.two.sticky {
+//     background: linear-gradient( 30deg, rgb(157, 91, 254) 0%, rgb(56, 144, 254) 100%);
+// }
